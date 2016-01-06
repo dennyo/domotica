@@ -1,0 +1,15 @@
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\bin\Release\Domotica.dll
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\bin\Release\Domotica.pdb
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\bin\Release\Domotica.Domotica.apk
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\bin\Release\Domotica.Domotica-Signed.apk
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\Domotica.dll
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\Domotica.pdb
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\android\bin\Domotica.Domotica.apk
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\res\layout\main.xml
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\res\values\strings.xml
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\res\drawable\icon.png
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\res\menu\menu.xml
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\R.cs.flag
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\uploadflags.txt
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\Domotica.dll.mdb
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\bin\Release\Domotica.dll.mdb
