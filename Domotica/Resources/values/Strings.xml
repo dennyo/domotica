@@ -16,6 +16,7 @@
   <string name="sensor_text">Sensor value</string>
   <string name="sensor_value">-</string>
   <string name="debug_text">Debug</string>
+  <string name="edit_text_timer">12:00</string>
   <string name="debug_value">-</string>
   <string name="exit">Exit</string>
   <string name="abort">Abort</string>

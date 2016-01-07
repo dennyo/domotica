@@ -60,16 +60,24 @@ namespace Domotica
         // Controls on GUI
         Button buttonConnect;
         Button buttonChangePinState;
+        Button buttonStartTimer;
         TextView textViewServerConnect, textViewTimerStateValue;
         public TextView textViewChangePinStateValue, textViewSensorValue, textViewDebugValue;
-        EditText editTextIPAddress, editTextIPPort;
+        EditText editTextIPAddress, editTextIPPort, editTextTimer;
         Switch switch1, switch2, switch3;
+        RadioButton radioButton1, radioButton2, radioButton3;
 
         Timer timerClock, timerSockets;             // Timers   
         Socket socket = null;                       // Socket   
         Connector connector = null;                 // Connector (simple-mode or threaded-mode)
         List<Tuple<string, TextView>> commandList = new List<Tuple<string, TextView>>();  // List for commands and response places on UI
         int listIndex = 0;
+        int chosenRadioButton = 1;
+        int seconds = 0;
+        int minutes = 0;
+        int delay = 0;
+        string switchTime;
+
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -81,6 +89,7 @@ namespace Domotica
             // find and set the controls, so it can be used in the code
             buttonConnect = FindViewById<Button>(Resource.Id.buttonConnect);
             buttonChangePinState = FindViewById<Button>(Resource.Id.buttonChangePinState);
+            buttonStartTimer = FindViewById<Button>(Resource.Id.buttonStartTimer);
             switch1 = FindViewById<Switch>(Resource.Id.switch1);
             switch2 = FindViewById<Switch>(Resource.Id.switch2);
             switch3 = FindViewById<Switch>(Resource.Id.switch3);
@@ -91,6 +100,12 @@ namespace Domotica
             textViewDebugValue = FindViewById<TextView>(Resource.Id.textViewDebugValue);
             editTextIPAddress = FindViewById<EditText>(Resource.Id.editTextIPAddress);
             editTextIPPort = FindViewById<EditText>(Resource.Id.editTextIPPort);
+            editTextTimer = FindViewById<EditText>(Resource.Id.editTextTimer);
+            radioButton1 = FindViewById<RadioButton>(Resource.Id.radioButton1);
+            radioButton2 = FindViewById<RadioButton>(Resource.Id.radioButton2);
+            radioButton3 = FindViewById<RadioButton>(Resource.Id.radioButton3);
+            
+
 
             UpdateConnectionState(4, "Disconnected");
 
@@ -107,7 +122,7 @@ namespace Domotica
             timerClock = new System.Timers.Timer() { Interval = 2000, Enabled = true }; // Interval >= 1000
             timerClock.Elapsed += (obj, args) =>
             {
-                RunOnUiThread(() => { textViewTimerStateValue.Text = DateTime.Now.ToString("h:mm:ss"); }); 
+                RunOnUiThread(() => { textViewTimerStateValue.Text = DateTime.Now.ToString("h:mm:ss"); });
             };
 
             // timer object, check Arduino state
@@ -117,13 +132,13 @@ namespace Domotica
             {
                 //RunOnUiThread(() =>
                 //{
-                    if (socket != null) // only if socket exists
-                    {
-                        // Send a command to the Arduino server on every tick (loop though list)
-                        UpdateGUI(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);  //e.g. UpdateGUI(executeCommand("s"), textViewChangePinStateValue);
-                        if (++listIndex >= commandList.Count) listIndex = 0;
-                    }
-                    else timerSockets.Enabled = false;  // If socket broken -> disable timer
+                if (socket != null) // only if socket exists
+                {
+                    // Send a command to the Arduino server on every tick (loop though list)
+                    UpdateGUI(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);  //e.g. UpdateGUI(executeCommand("s"), textViewChangePinStateValue);
+                    if (++listIndex >= commandList.Count) listIndex = 0;
+                }
+                else timerSockets.Enabled = false;  // If socket broken -> disable timer
                 //});
             };
 
@@ -143,7 +158,7 @@ namespace Domotica
                         {
                             //Stop the thread If the Connector thread is already started.
                             if (connector.CheckStarted()) connector.StopConnector();
-                               connector.StartConnector(editTextIPAddress.Text, editTextIPPort.Text);
+                            connector.StartConnector(editTextIPAddress.Text, editTextIPPort.Text);
                         }
                     }
                     else UpdateConnectionState(3, "Please check IP");
@@ -207,8 +222,19 @@ namespace Domotica
                     }
                 };
             }
-        }
 
+            radioButton1.Click += RadioButtonClick;
+            radioButton2.Click += RadioButtonClick;
+            radioButton3.Click += RadioButtonClick;
+
+                buttonStartTimer.Click += (sender, e) =>
+                {
+                    minutes = Convert.ToInt32(editTextTimer.Text.Substring(0, 2));
+                    seconds = Convert.ToInt32(editTextTimer.Text.Substring(3, 2));
+                    timer(minutes, seconds);               
+                };
+
+}
 
         //Send command to server and wait for response (blocking)
         //Method should only be called when socket existst
@@ -233,9 +259,11 @@ namespace Domotica
                         result = Encoding.ASCII.GetString(buffer, 0, bytesRead - 1); // skip \n
                     else result = "err";
                 }
-                catch (Exception exception) {
+                catch (Exception exception)
+                {
                     result = exception.ToString();
-                    if (socket != null) {
+                    if (socket != null)
+                    {
                         socket.Close();
                         socket = null;
                     }
@@ -243,6 +271,12 @@ namespace Domotica
                 }
             }
             return result;
+        }
+
+        private void RadioButtonClick(object sender, EventArgs e)
+        {
+            RadioButton rb = (RadioButton)sender;
+            chosenRadioButton = Convert.ToInt32(rb.Text);
         }
 
         //Update connection state label (GUI).
@@ -261,7 +295,8 @@ namespace Domotica
                 butConText = "Please wait";
                 color = Color.Orange;
                 butConEnabled = false;
-            } else
+            }
+            else
             if (state == 2)
             {
                 butConText = "Disconnect";
@@ -289,7 +324,7 @@ namespace Domotica
             {
                 if (result == "OFF") textview.SetTextColor(Color.Red);
                 else if (result == " ON") textview.SetTextColor(Color.Green);
-                else textview.SetTextColor(Color.White);  
+                else textview.SetTextColor(Color.White);
                 textview.Text = result;
             });
         }
@@ -311,7 +346,9 @@ namespace Domotica
                             UpdateConnectionState(2, "Connected");
                             timerSockets.Enabled = true;                //Activate timer for communication with Arduino     
                         }
-                    } catch (Exception exception) {
+                    }
+                    catch (Exception exception)
+                    {
                         timerSockets.Enabled = false;
                         if (socket != null)
                         {
@@ -320,7 +357,7 @@ namespace Domotica
                         }
                         UpdateConnectionState(4, exception.Message);
                     }
-	            }
+                }
                 else // disconnect socket
                 {
                     socket.Close(); socket = null;
@@ -392,12 +429,28 @@ namespace Domotica
         //Check if the entered IP address is valid.
         private bool CheckValidIpAddress(string ip)
         {
-            if (ip != "") {
+            if (ip != "")
+            {
                 //Check user input against regex (check if IP address is not empty).
                 Regex regex = new Regex("\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|$)){4}\\b");
                 Match match = regex.Match(ip);
                 return match.Success;
-            } else return false;
+            }
+            else return false;
+        }
+
+        public async void timer(int m, int s)
+        {
+            delay = 60000 * m + 1000 * s;
+            await WaitMethod();
+            if (chosenRadioButton == 1) switch1.Toggle();
+            else if (chosenRadioButton == 2) switch2.Toggle();
+            else if (chosenRadioButton == 3) switch3.Toggle();
+        }
+
+        async System.Threading.Tasks.Task WaitMethod()
+        {
+            await System.Threading.Tasks.Task.Delay(delay);
         }
 
         //Check if the entered port is valid.
@@ -416,7 +469,10 @@ namespace Domotica
                     return ((portAsInteger >= 0) && (portAsInteger <= 65535));
                 }
                 else return false;
-            } else return false;
+            }
+            else return false;
         }
     }
 }
+
+        

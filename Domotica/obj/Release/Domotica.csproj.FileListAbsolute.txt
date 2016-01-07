@@ -11,5 +11,6 @@ C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\res\drawable\i
 C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\res\menu\menu.xml
 C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\R.cs.flag
 C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\uploadflags.txt
+C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\Domotica.csprojResolveAssemblyReference.cache
 C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Release\Domotica.dll.mdb
 C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\bin\Release\Domotica.dll.mdb

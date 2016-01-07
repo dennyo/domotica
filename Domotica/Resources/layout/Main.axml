@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:minWidth="25px"
-    android:minHeight="25px">
+    android:minHeight="25px"
+    android:id="@+id/linearLayout1">
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -192,5 +193,84 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentRight="true"
             android:id="@+id/switch3" />
+        <TextView
+            android:text="TIMER"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@id/textView3"
+            android:id="@+id/textViewTimer1"
+            android:width="150dp"
+            android:layout_marginTop="15dp" />
+        <TextView
+            android:text="Change State"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/textViewTimer1"
+            android:id="@+id/textViewRadioBtn"
+            android:layout_alignParentLeft="true"
+            android:width="150dp" />
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewRadioBtn"
+            android:orientation="horizontal">
+            <RadioButton
+                android:text="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewRadioBtn"
+                android:id="@+id/radioButton1"
+                android:gravity="center"
+                android:layout_marginRight="10dp"
+                android:onClick="onRadioButtonClicked" />
+            <RadioButton
+                android:text="2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewRadioBtn"
+                android:id="@+id/radioButton2"
+                android:layout_toRightOf="@id/radioButton1"
+                android:layout_marginRight="10dp"
+                android:onClick="onRadioButtonClicked" />
+            <RadioButton
+                android:text="3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewRadioBtn"
+                android:id="@+id/radioButton3"
+                android:layout_toRightOf="@id/radioButton2"
+                android:onClick="onRadioButtonClicked" />
+        </RadioGroup>
+        <TextView
+            android:text="In .. Min. and .. Sec."
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:id="@+id/textViewTime"
+            android:layout_below="@id/textViewTimer1"
+            android:layout_alignParentRight="true"
+            android:height="30dp" />
+        <EditText
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextTimer"
+            android:text="@string/edit_text_timer"
+            android:lines="1"
+            android:minLines="1"
+            android:maxLines="1"
+            android:inputType="numberDecimal"
+            android:digits="0123456789."
+            android:layout_below="@id/textViewTime"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-5dp"
+            android:layout_marginRight="100dp" />
+        <Button
+            android:text="Start"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/textViewTime"
+            android:id="@+id/buttonStartTimer"
+            android:layout_alignParentRight="true"
+            android:backgroundTint="#add8e6ff" />
     </RelativeLayout>
 </LinearLayout>
