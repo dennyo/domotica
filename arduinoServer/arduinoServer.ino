@@ -48,7 +48,7 @@ int activeSwitch = 0;
 
 void setup()
 { 
-  mySwitch.enableTransmit(3);
+  mySwitch.enableTransmit(4);
 
    //Init I/O-pins
    pinMode(switchPin, INPUT);            // hardware switch, for changing pin state
@@ -130,20 +130,22 @@ void loop()
         {
           if (pinState1) { digitalWrite(ledPin, HIGH); mySwitch.send(9321647, 24); } // Turn RF-Switch 1 on
           else { digitalWrite(ledPin, LOW); mySwitch.send(9321646, 24); }  // Turn RF-Switch 1 off
+          delay(100); // delay depends on device
         }
       else if(activeSwitch==2)
         {
           if (pinState2) { digitalWrite(ledPin, HIGH); mySwitch.send(9321645, 24);} // Turn RF-Switch 2 on
           else { digitalWrite(ledPin, LOW); mySwitch.send(9321644, 24);}  // Turn RF-Switch 2 off
+          delay(100); // delay depends on device
         }
       else if(activeSwitch==3)
         {
           if (pinState3) { digitalWrite(ledPin, HIGH); mySwitch.send(9321643, 24); } // Turn RF-Switch 3 on
           else { digitalWrite(ledPin, LOW); mySwitch.send(9321642, 24); }  // Turn RF-Switch 3 off
+          delay(100); // delay depends on device
         }
          activeSwitch = 0;
          pinChange = false;
-         delay(100); // delay depends on device
       }
    
       // Execute when byte is received.

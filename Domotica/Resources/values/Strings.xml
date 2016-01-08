@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <color name="blue">#AA2233DD</color>
+  <color name ="white">#FFFFFF</color>
   <string name="application_name">Domotica</string>
   <string name="timer_state_text">Current Time:</string>
   <string name="timer_state_value">OFF</string>

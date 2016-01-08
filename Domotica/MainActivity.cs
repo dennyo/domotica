@@ -65,6 +65,7 @@ namespace Domotica
         EditText editTextIPAddress, editTextIPPort, editTextMinutes, editTextSeconds;
         Switch switch1, switch2, switch3;
         RadioButton radioButton1, radioButton2, radioButton3;
+        Button buttonAllOn, buttonAllOff;
 
         Timer timerClock, timerSockets;             // Timers   
         Socket socket = null;                       // Socket   
@@ -100,8 +101,10 @@ namespace Domotica
             radioButton1 = FindViewById<RadioButton>(Resource.Id.radioButton1);
             radioButton2 = FindViewById<RadioButton>(Resource.Id.radioButton2);
             radioButton3 = FindViewById<RadioButton>(Resource.Id.radioButton3);
-            
+            buttonAllOn = FindViewById<Button>(Resource.Id.buttonAllOn);
+            buttonAllOff = FindViewById<Button>(Resource.Id.buttonAllOff);
 
+            List<Switch> switches = new List<Switch> { switch1, switch2, switch3 };
 
             UpdateConnectionState(4, "Disconnected");
 
@@ -195,9 +198,30 @@ namespace Domotica
                     }
                 };
 
-            radioButton1.Click += RadioButtonClick;
-            radioButton2.Click += RadioButtonClick;
-            radioButton3.Click += RadioButtonClick;
+                radioButton1.Click += RadioButtonClick;
+                radioButton2.Click += RadioButtonClick;
+                radioButton3.Click += RadioButtonClick;
+
+            buttonAllOn.Click += (sender, e) =>
+            {
+                foreach(Switch s in switches)
+                {
+                    if(s.Checked == false)
+                    {
+                        s.Toggle();
+                    }
+                }
+            };
+            buttonAllOff.Click += (sender, e) =>
+            {
+                foreach(Switch s in switches)
+                {
+                    if(s.Checked == true)
+                    {
+                        s.Toggle();
+                    }
+                }
+            };
 
                 buttonStartTimer.Click += (sender, e) =>
                 {
