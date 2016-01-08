@@ -60,17 +60,14 @@ namespace Domotica
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060021
-			public const int abort = 2131099681;
-			
-			// aapt resource value: 0x7f06000b
-			public const int buttonChangePinState = 2131099659;
+			// aapt resource value: 0x7f06001f
+			public const int abort = 2131099679;
 			
 			// aapt resource value: 0x7f06000a
 			public const int buttonConnect = 2131099658;
 			
-			// aapt resource value: 0x7f06001f
-			public const int buttonStartTimer = 2131099679;
+			// aapt resource value: 0x7f06001b
+			public const int buttonStartTimer = 2131099675;
 			
 			// aapt resource value: 0x7f060008
 			public const int editTextIPAddress = 2131099656;
@@ -78,56 +75,53 @@ namespace Domotica
 			// aapt resource value: 0x7f060009
 			public const int editTextIPPort = 2131099657;
 			
-			// aapt resource value: 0x7f06001e
-			public const int editTextTimer = 2131099678;
+			// aapt resource value: 0x7f06001d
+			public const int editTextMinutes = 2131099677;
 			
-			// aapt resource value: 0x7f060020
-			public const int exit = 2131099680;
+			// aapt resource value: 0x7f06001c
+			public const int editTextSeconds = 2131099676;
+			
+			// aapt resource value: 0x7f06001e
+			public const int exit = 2131099678;
 			
 			// aapt resource value: 0x7f060000
 			public const int linearLayout1 = 2131099648;
 			
-			// aapt resource value: 0x7f06001a
-			public const int radioButton1 = 2131099674;
+			// aapt resource value: 0x7f060017
+			public const int radioButton1 = 2131099671;
 			
-			// aapt resource value: 0x7f06001b
-			public const int radioButton2 = 2131099675;
+			// aapt resource value: 0x7f060018
+			public const int radioButton2 = 2131099672;
 			
-			// aapt resource value: 0x7f06001c
-			public const int radioButton3 = 2131099676;
+			// aapt resource value: 0x7f060019
+			public const int radioButton3 = 2131099673;
 			
 			// aapt resource value: 0x7f060001
 			public const int relativeLayout1 = 2131099649;
 			
-			// aapt resource value: 0x7f060013
-			public const int switch1 = 2131099667;
-			
-			// aapt resource value: 0x7f060015
-			public const int switch2 = 2131099669;
-			
-			// aapt resource value: 0x7f060017
-			public const int switch3 = 2131099671;
+			// aapt resource value: 0x7f060010
+			public const int switch1 = 2131099664;
 			
 			// aapt resource value: 0x7f060012
-			public const int textView1 = 2131099666;
+			public const int switch2 = 2131099666;
 			
 			// aapt resource value: 0x7f060014
-			public const int textView2 = 2131099668;
+			public const int switch3 = 2131099668;
 			
-			// aapt resource value: 0x7f060016
-			public const int textView3 = 2131099670;
-			
-			// aapt resource value: 0x7f06000c
-			public const int textViewChangePinState = 2131099660;
-			
-			// aapt resource value: 0x7f06000d
-			public const int textViewChangePinStateValue = 2131099661;
-			
-			// aapt resource value: 0x7f060010
-			public const int textViewDebug = 2131099664;
+			// aapt resource value: 0x7f06000f
+			public const int textView1 = 2131099663;
 			
 			// aapt resource value: 0x7f060011
-			public const int textViewDebugValue = 2131099665;
+			public const int textView2 = 2131099665;
+			
+			// aapt resource value: 0x7f060013
+			public const int textView3 = 2131099667;
+			
+			// aapt resource value: 0x7f06000d
+			public const int textViewDebug = 2131099661;
+			
+			// aapt resource value: 0x7f06000e
+			public const int textViewDebugValue = 2131099662;
 			
 			// aapt resource value: 0x7f060006
 			public const int textViewIPAddress = 2131099654;
@@ -135,14 +129,14 @@ namespace Domotica
 			// aapt resource value: 0x7f060007
 			public const int textViewIPPort = 2131099655;
 			
-			// aapt resource value: 0x7f060019
-			public const int textViewRadioBtn = 2131099673;
+			// aapt resource value: 0x7f060016
+			public const int textViewRadioBtn = 2131099670;
 			
-			// aapt resource value: 0x7f06000e
-			public const int textViewSensor = 2131099662;
+			// aapt resource value: 0x7f06000b
+			public const int textViewSensor = 2131099659;
 			
-			// aapt resource value: 0x7f06000f
-			public const int textViewSensorValue = 2131099663;
+			// aapt resource value: 0x7f06000c
+			public const int textViewSensorValue = 2131099660;
 			
 			// aapt resource value: 0x7f060004
 			public const int textViewServer = 2131099652;
@@ -150,11 +144,11 @@ namespace Domotica
 			// aapt resource value: 0x7f060005
 			public const int textViewServerConnect = 2131099653;
 			
-			// aapt resource value: 0x7f06001d
-			public const int textViewTime = 2131099677;
+			// aapt resource value: 0x7f06001a
+			public const int textViewTime = 2131099674;
 			
-			// aapt resource value: 0x7f060018
-			public const int textViewTimer1 = 2131099672;
+			// aapt resource value: 0x7f060015
+			public const int textViewTimer1 = 2131099669;
 			
 			// aapt resource value: 0x7f060002
 			public const int textViewTimerState = 2131099650;
@@ -207,8 +201,8 @@ namespace Domotica
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040013
-			public const int abort = 2130968595;
+			// aapt resource value: 0x7f040011
+			public const int abort = 2130968593;
 			
 			// aapt resource value: 0x7f040000
 			public const int application_name = 2130968576;
@@ -222,23 +216,20 @@ namespace Domotica
 			// aapt resource value: 0x7f040009
 			public const int button_connect_text = 2130968585;
 			
-			// aapt resource value: 0x7f04000a
-			public const int button_pin_state_text = 2130968586;
-			
 			// aapt resource value: 0x7f04000c
-			public const int change_pin_state_value = 2130968588;
+			public const int debug_text = 2130968588;
 			
 			// aapt resource value: 0x7f04000f
-			public const int debug_text = 2130968591;
+			public const int debug_value = 2130968591;
 			
-			// aapt resource value: 0x7f040011
-			public const int debug_value = 2130968593;
+			// aapt resource value: 0x7f04000d
+			public const int edit_text_minutes = 2130968589;
+			
+			// aapt resource value: 0x7f04000e
+			public const int edit_text_seconds = 2130968590;
 			
 			// aapt resource value: 0x7f040010
-			public const int edit_text_timer = 2130968592;
-			
-			// aapt resource value: 0x7f040012
-			public const int exit = 2130968594;
+			public const int exit = 2130968592;
 			
 			// aapt resource value: 0x7f040005
 			public const int ip_address_text = 2130968581;
@@ -252,14 +243,11 @@ namespace Domotica
 			// aapt resource value: 0x7f040008
 			public const int ip_port_value = 2130968584;
 			
+			// aapt resource value: 0x7f04000a
+			public const int sensor_text = 2130968586;
+			
 			// aapt resource value: 0x7f04000b
-			public const int pin_state_text = 2130968587;
-			
-			// aapt resource value: 0x7f04000d
-			public const int sensor_text = 2130968589;
-			
-			// aapt resource value: 0x7f04000e
-			public const int sensor_value = 2130968590;
+			public const int sensor_value = 2130968587;
 			
 			// aapt resource value: 0x7f040001
 			public const int timer_state_text = 2130968577;

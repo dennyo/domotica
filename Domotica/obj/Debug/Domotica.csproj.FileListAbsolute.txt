@@ -30,7 +30,6 @@ C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\bin\Debug\Domotica.dll
 C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\bin\Debug\Domotica.pdb
 C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\bin\Debug\Domotica.Domotica.apk
 C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\bin\Debug\Domotica.Domotica-Signed.apk
-C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Debug\Domotica.csprojResolveAssemblyReference.cache
 C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Debug\Domotica.dll
 C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Debug\Domotica.pdb
 C:\Users\DP & Anke\Downloads\domoti\Domotica\Domotica\obj\Debug\android\bin\Domotica.Domotica.apk

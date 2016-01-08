@@ -36,9 +36,9 @@ int ethPort = 3300;                                  // Take a free port (check 
 EthernetServer server(ethPort);              // EthernetServer instance (listening on port <ethPort>).
 ActionTransmitter actionTransmitter(RFPin);  // Intantiate a new ActionTransmitter remote, old model, use pin <RFPin>
 
-bool action1on = false;
-bool action2on = false;
-bool action3on = false;
+bool pinState1 = false;
+bool pinState2 = false;
+bool pinState3 = false;
 bool pinState = false;                   // Variable to store actual pin state
 bool pinChange = false;                  // Variable to store actual pin change
 int  sensorValue = 0;                    // Variable to store actual sensor value
@@ -115,27 +115,34 @@ void loop()
    while (ethernetClient.connected()) 
    {
       checkEvent(switchPin, pinState);
+      checkEvent(switchPin, pinState1);
+      checkEvent(switchPin, pinState2);
+      checkEvent(switchPin, pinState3);
       sensorValue = readSensor(0, 100); 
         
       // Activate pin based op pinState
       if (pinChange) {
-        if(activeSwitch==1)
+        if(activeSwitch==0)
         {
-          if (pinState) { digitalWrite(ledPin, HIGH); mySwitch.send(9321647, 24); action1on = true; } // Turn RF-Switch 1 on
-          else { digitalWrite(ledPin, LOW); mySwitch.send(9321646, 24); action1on = false; }  // Turn RF-Switch 1 off
+          digitalWrite(ledPin, LOW);
+        }   
+      else if(activeSwitch==1)
+        {
+          if (pinState1) { digitalWrite(ledPin, HIGH); mySwitch.send(9321647, 24); } // Turn RF-Switch 1 on
+          else { digitalWrite(ledPin, LOW); mySwitch.send(9321646, 24); }  // Turn RF-Switch 1 off
         }
       else if(activeSwitch==2)
         {
-          if (pinState) { digitalWrite(ledPin, HIGH); mySwitch.send(9321645, 24); action2on = true; } // Turn RF-Switch 2 on
-          else { digitalWrite(ledPin, LOW); mySwitch.send(9321644, 24); action2on = false; }  // Turn RF-Switch 2 off
+          if (pinState2) { digitalWrite(ledPin, HIGH); mySwitch.send(9321645, 24);} // Turn RF-Switch 2 on
+          else { digitalWrite(ledPin, LOW); mySwitch.send(9321644, 24);}  // Turn RF-Switch 2 off
         }
       else if(activeSwitch==3)
         {
-          if (pinState) { digitalWrite(ledPin, HIGH); mySwitch.send(9321643, 24); action3on = true; } // Turn RF-Switch 3 on
-          else { digitalWrite(ledPin, LOW); mySwitch.send(9321642, 24); action3on = false; }  // Turn RF-Switch 3 off
+          if (pinState3) { digitalWrite(ledPin, HIGH); mySwitch.send(9321643, 24); } // Turn RF-Switch 3 on
+          else { digitalWrite(ledPin, LOW); mySwitch.send(9321642, 24); }  // Turn RF-Switch 3 off
         }
-         pinChange = false;
          activeSwitch = 0;
+         pinChange = false;
          delay(100); // delay depends on device
       }
    
@@ -171,21 +178,21 @@ void executeCommand(char cmd)
             if (pinState) { server.write(" ON\n"); Serial.println("Pin state is ON"); }  // always send 4 chars
             else { server.write("OFF\n"); Serial.println("Pin state is OFF"); }
             break;
-         case 'x': // Toggle state of Switch 1; If state is already ON then turn it OFF
-            if (pinState) { pinState = false; Serial.println("Set pin 1 state to \"OFF\""); }
-            else { pinState = true; Serial.println("Set pin 1 state to \"ON\""); }  
+         case '1': // Toggle state of Switch 1; If state is already ON then turn it OFF
+            if (pinState1) { pinState1 = false; Serial.println("Set pin 1 state to \"OFF\""); }
+            else { pinState1 = true; Serial.println("Set pin 1 state to \"ON\""); }  
             pinChange = true; 
             activeSwitch = 1;
             break;
-         case 'y': // Switch 2
-            if (pinState) { pinState = false; Serial.println("Set pin 2 state to \"OFF\""); }
-            else { pinState = true; Serial.println("Set pin 2 state to \"ON\""); }  
+         case '2': // Switch 2
+            if (pinState2) { pinState2 = false; Serial.println("Set pin 2 state to \"OFF\""); }
+            else { pinState2 = true; Serial.println("Set pin 2 state to \"ON\""); }  
             pinChange = true; 
             activeSwitch = 2;
             break;
-         case 'z': // Switch 3
-            if (pinState) { pinState = false; Serial.println("Set pin 3 state to \"OFF\""); }
-            else { pinState = true; Serial.println("Set pin 3 state to \"ON\""); }  
+         case '3': // Switch 3
+            if (pinState3) { pinState3 = false; Serial.println("Set pin 3 state to \"OFF\""); }
+            else { pinState3 = true; Serial.println("Set pin 3 state to \"ON\""); }  
             pinChange = true; 
             activeSwitch = 3;
             break;

@@ -59,11 +59,10 @@ namespace Domotica
         // Variables (components/controls)
         // Controls on GUI
         Button buttonConnect;
-        Button buttonChangePinState;
         Button buttonStartTimer;
         TextView textViewServerConnect, textViewTimerStateValue;
-        public TextView textViewChangePinStateValue, textViewSensorValue, textViewDebugValue;
-        EditText editTextIPAddress, editTextIPPort, editTextTimer;
+        public TextView textViewSensorValue, textViewDebugValue;
+        EditText editTextIPAddress, editTextIPPort, editTextMinutes, editTextSeconds;
         Switch switch1, switch2, switch3;
         RadioButton radioButton1, radioButton2, radioButton3;
 
@@ -76,8 +75,6 @@ namespace Domotica
         int seconds = 0;
         int minutes = 0;
         int delay = 0;
-        string switchTime;
-
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -88,19 +85,18 @@ namespace Domotica
 
             // find and set the controls, so it can be used in the code
             buttonConnect = FindViewById<Button>(Resource.Id.buttonConnect);
-            buttonChangePinState = FindViewById<Button>(Resource.Id.buttonChangePinState);
             buttonStartTimer = FindViewById<Button>(Resource.Id.buttonStartTimer);
             switch1 = FindViewById<Switch>(Resource.Id.switch1);
             switch2 = FindViewById<Switch>(Resource.Id.switch2);
             switch3 = FindViewById<Switch>(Resource.Id.switch3);
             textViewTimerStateValue = FindViewById<TextView>(Resource.Id.textViewTimerStateValue);
             textViewServerConnect = FindViewById<TextView>(Resource.Id.textViewServerConnect);
-            textViewChangePinStateValue = FindViewById<TextView>(Resource.Id.textViewChangePinStateValue);
             textViewSensorValue = FindViewById<TextView>(Resource.Id.textViewSensorValue);
             textViewDebugValue = FindViewById<TextView>(Resource.Id.textViewDebugValue);
             editTextIPAddress = FindViewById<EditText>(Resource.Id.editTextIPAddress);
             editTextIPPort = FindViewById<EditText>(Resource.Id.editTextIPPort);
-            editTextTimer = FindViewById<EditText>(Resource.Id.editTextTimer);
+            editTextMinutes = FindViewById<EditText>(Resource.Id.editTextMinutes);
+            editTextSeconds = FindViewById<EditText>(Resource.Id.editTextSeconds);
             radioButton1 = FindViewById<RadioButton>(Resource.Id.radioButton1);
             radioButton2 = FindViewById<RadioButton>(Resource.Id.radioButton2);
             radioButton3 = FindViewById<RadioButton>(Resource.Id.radioButton3);
@@ -110,7 +106,6 @@ namespace Domotica
             UpdateConnectionState(4, "Disconnected");
 
             // Init commandlist, scheduled by socket timer
-            commandList.Add(new Tuple<string, TextView>("s", textViewChangePinStateValue));
             commandList.Add(new Tuple<string, TextView>("a", textViewSensorValue));
 
             // activation of connector -> threaded sockets otherwise -> simple sockets 
@@ -119,10 +114,10 @@ namespace Domotica
             this.Title = (connector == null) ? this.Title + " (simple sockets)" : this.Title + " (thread sockets)";
 
             // timer object, running clock
-            timerClock = new System.Timers.Timer() { Interval = 2000, Enabled = true }; // Interval >= 1000
+            timerClock = new System.Timers.Timer() { Interval = 1000, Enabled = true }; // Interval >= 1000
             timerClock.Elapsed += (obj, args) =>
             {
-                RunOnUiThread(() => { textViewTimerStateValue.Text = DateTime.Now.ToString("h:mm:ss"); });
+                RunOnUiThread(() => { textViewTimerStateValue.Text = DateTime.Now.ToString("hh:mm:ss"); });
             };
 
             // timer object, check Arduino state
@@ -165,63 +160,40 @@ namespace Domotica
                 };
             }
 
-            //Add the "Change pin state" button handler.
-            if (buttonChangePinState != null)
+            switch1.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
-                buttonChangePinState.Click += (sender, e) =>
-                {
-                    if (connector == null) // -> simple sockets
+                if (connector == null) // -> simple sockets
                     {
-                        socket.Send(Encoding.ASCII.GetBytes("x"));                 // Send toggle-command to the Arduino
+                    socket.Send(Encoding.ASCII.GetBytes("1"));                 // Send toggle-command to the Arduino
                     }
-                    else // -> threaded sockets
+                else // -> threaded sockets
                     {
-                        if (connector.CheckStarted()) connector.SendMessage("x");  // Send toggle-command to the Arduino
+                    if (connector.CheckStarted()) connector.SendMessage("1");  // Send toggle-command to the Arduino
                     }
-                };
-            }
-            if (switch1 != null)
-            {
-                switch1.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
-                {
-                    if (connector == null) // -> simple sockets
-                    {
-                        socket.Send(Encoding.ASCII.GetBytes("x"));                 // Send toggle-command to the Arduino
-                    }
-                    else // -> threaded sockets
-                    {
-                        if (connector.CheckStarted()) connector.SendMessage("x");  // Send toggle-command to the Arduino
-                    }
-                };
-            }
-            if (switch2 != null)
-            {
+
+            };
                 switch2.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
                 {
                     if (connector == null) // -> simple sockets
                     {
-                        socket.Send(Encoding.ASCII.GetBytes("y"));                 // Send toggle-command to the Arduino
+                        socket.Send(Encoding.ASCII.GetBytes("2"));                 // Send toggle-command to the Arduino
                     }
                     else // -> threaded sockets
                     {
-                        if (connector.CheckStarted()) connector.SendMessage("y");  // Send toggle-command to the Arduino
+                        if (connector.CheckStarted()) connector.SendMessage("2");  // Send toggle-command to the Arduino
                     }
                 };
-            }
-            if (switch3 != null)
-            {
                 switch3.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
                 {
                     if (connector == null) // -> simple sockets
                     {
-                        socket.Send(Encoding.ASCII.GetBytes("z"));                 // Send toggle-command to the Arduino
+                        socket.Send(Encoding.ASCII.GetBytes("3"));                 // Send toggle-command to the Arduino
                     }
                     else // -> threaded sockets
                     {
-                        if (connector.CheckStarted()) connector.SendMessage("z");  // Send toggle-command to the Arduino
+                        if (connector.CheckStarted()) connector.SendMessage("3");  // Send toggle-command to the Arduino
                     }
                 };
-            }
 
             radioButton1.Click += RadioButtonClick;
             radioButton2.Click += RadioButtonClick;
@@ -229,8 +201,8 @@ namespace Domotica
 
                 buttonStartTimer.Click += (sender, e) =>
                 {
-                    minutes = Convert.ToInt32(editTextTimer.Text.Substring(0, 2));
-                    seconds = Convert.ToInt32(editTextTimer.Text.Substring(3, 2));
+                    minutes = Convert.ToInt32(editTextMinutes.Text);
+                    seconds = Convert.ToInt32(editTextSeconds.Text);
                     timer(minutes, seconds);               
                 };
 
@@ -287,7 +259,6 @@ namespace Domotica
             bool butConEnabled = true;      // default state
             Color color = Color.Red;        // default color
             // pinButton
-            bool butPinEnabled = false;     // default state 
 
             //Set "Connect" button label according to connection state.
             if (state == 1)
@@ -301,7 +272,6 @@ namespace Domotica
             {
                 butConText = "Disconnect";
                 color = Color.Green;
-                butPinEnabled = true;
             }
             //Edit the control's properties on the UI thread
             RunOnUiThread(() =>
@@ -313,7 +283,6 @@ namespace Domotica
                     textViewServerConnect.SetTextColor(color);
                     buttonConnect.Enabled = butConEnabled;
                 }
-                buttonChangePinState.Enabled = butPinEnabled;
             });
         }
 
