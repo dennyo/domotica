@@ -132,22 +132,22 @@ void loop()
         }   
       else if(activeSwitch==1)
         {
-          if (pinState1) { digitalWrite(ledPin, HIGH); mySwitch.send(9321647, 24); } // Turn RF-Switch 1 on
-          else { digitalWrite(ledPin, LOW); mySwitch.send(9321646, 24); }  // Turn RF-Switch 1 off
+          if (pinState1) {mySwitch.send(9321647, 24);} // Turn RF-Switch 1 on
+          else {mySwitch.send(9321646, 24);} // Turn RF-Switch 1 off
         }
       else if(activeSwitch==2)
         {
-          if (pinState2) { digitalWrite(ledPin, HIGH); mySwitch.send(9321645, 24);} // Turn RF-Switch 2 on
-          else { digitalWrite(ledPin, LOW); mySwitch.send(9321644, 24);}  // Turn RF-Switch 2 off
+          if (pinState2) {mySwitch.send(9321645, 24);} // Turn RF-Switch 2 on
+          else {mySwitch.send(9321644, 24);}  // Turn RF-Switch 2 off
         }
       else if(activeSwitch==3)
         {
-          if (pinState3) { digitalWrite(ledPin, HIGH); mySwitch.send(9321643, 24); } // Turn RF-Switch 3 on
-          else { digitalWrite(ledPin, LOW); mySwitch.send(9321642, 24); }  // Turn RF-Switch 3 off
+          if (pinState3) {mySwitch.send(9321643, 24);} // Turn RF-Switch 3 on
+          else {mySwitch.send(9321642, 24);} // Turn RF-Switch 3 off
         }
          activeSwitch = 0;
          pinChange = false;
-         delay(100); // delay depends on device
+         delay(100);
       }
    
       // Execute when byte is received.
