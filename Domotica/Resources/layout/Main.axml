@@ -30,7 +30,7 @@
             android:id="@+id/textViewTimerStateValue"
             android:layout_alignParentRight="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#FFFFFF" />
+            android:textColor="@color/white" />
         <TextView
             android:text="@string/arduino_server_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -85,7 +85,9 @@
             android:layout_below="@id/textViewIPPort"
             android:id="@+id/buttonConnect"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/white"
+            android:backgroundTint="#ff333333" />
         <EditText
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -119,19 +121,19 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
         <TextView
-            android:text="@string/debug_text"
+            android:text="Temp Sensor"
             android:layout_width="150dp"
             android:layout_height="30dp"
-            android:id="@+id/textViewDebug"
+            android:id="@+id/textViewTempSensor"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/textViewSensor"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
         <TextView
-            android:text="@string/debug_value"
+            android:text="@string/temp_value"
             android:layout_width="200dp"
             android:layout_height="30dp"
-            android:id="@+id/textViewDebugValue"
+            android:id="@+id/textViewTempValue"
             android:layout_alignParentRight="true"
             android:layout_below="@id/textViewSensorValue"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -142,14 +144,14 @@
             android:layout_height="30dp"
             android:id="@+id/textView1"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/textViewDebug"
+            android:layout_below="@id/textViewTempSensor"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
         <Switch
             android:layout_width="200dp"
             android:layout_height="30dp"
             android:switchMinWidth="200dp"
-            android:layout_below="@id/textViewDebugValue"
+            android:layout_below="@id/textViewTempValue"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentRight="true"
             android:id="@+id/switch1" />
@@ -193,14 +195,18 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textView3"
             android:id="@+id/buttonAllOn"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/white"
+            android:backgroundTint="#ff333333" />
         <Button
             android:text="All OFF"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/switch3"
             android:id="@+id/buttonAllOff"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:backgroundTint="#ff333333" />
         <TextView
             android:text="TIMER"
             android:layout_width="wrap_content"
@@ -267,7 +273,9 @@
             android:layout_height="40dp"
             android:layout_below="@id/textViewTime"
             android:id="@+id/buttonStartTimer"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:backgroundTint="#ff333333" />
         <EditText
             android:layout_width="50dp"
             android:layout_height="wrap_content"

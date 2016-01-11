@@ -17,6 +17,9 @@ public final class R {
     public static final class drawable {
         public static final int background=0x7f020000;
         public static final int icon=0x7f020001;
+        public static final int logo=0x7f020002;
+        public static final int radiobutton_off_background=0x7f020003;
+        public static final int radiobutton_on_background=0x7f020004;
     }
     public static final class id {
         public static final int abort=0x7f070021;
@@ -40,8 +43,6 @@ public final class R {
         public static final int textView1=0x7f07000f;
         public static final int textView2=0x7f070011;
         public static final int textView3=0x7f070013;
-        public static final int textViewDebug=0x7f07000d;
-        public static final int textViewDebugValue=0x7f07000e;
         public static final int textViewIPAddress=0x7f070006;
         public static final int textViewIPPort=0x7f070007;
         public static final int textViewRadioBtn=0x7f070018;
@@ -49,6 +50,8 @@ public final class R {
         public static final int textViewSensorValue=0x7f07000c;
         public static final int textViewServer=0x7f070004;
         public static final int textViewServerConnect=0x7f070005;
+        public static final int textViewTempSensor=0x7f07000d;
+        public static final int textViewTempValue=0x7f07000e;
         public static final int textViewTime=0x7f07001c;
         public static final int textViewTimer1=0x7f070017;
         public static final int textViewTimerState=0x7f070002;
@@ -67,7 +70,6 @@ public final class R {
         public static final int arduino_server_text=0x7f050003;
         public static final int button_connect_text=0x7f050009;
         public static final int debug_text=0x7f05000c;
-        public static final int debug_value=0x7f05000f;
         public static final int edit_text_minutes=0x7f05000d;
         public static final int edit_text_seconds=0x7f05000e;
         public static final int exit=0x7f050010;
@@ -77,6 +79,7 @@ public final class R {
         public static final int ip_port_value=0x7f050008;
         public static final int sensor_text=0x7f05000a;
         public static final int sensor_value=0x7f05000b;
+        public static final int temp_value=0x7f05000f;
         public static final int timer_state_text=0x7f050001;
         public static final int timer_state_value=0x7f050002;
     }

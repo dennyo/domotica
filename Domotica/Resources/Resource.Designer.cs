@@ -145,12 +145,6 @@ namespace Domotica
 			// aapt resource value: 0x7f070013
 			public const int textView3 = 2131165203;
 			
-			// aapt resource value: 0x7f07000d
-			public const int textViewDebug = 2131165197;
-			
-			// aapt resource value: 0x7f07000e
-			public const int textViewDebugValue = 2131165198;
-			
 			// aapt resource value: 0x7f070006
 			public const int textViewIPAddress = 2131165190;
 			
@@ -171,6 +165,12 @@ namespace Domotica
 			
 			// aapt resource value: 0x7f070005
 			public const int textViewServerConnect = 2131165189;
+			
+			// aapt resource value: 0x7f07000d
+			public const int textViewTempSensor = 2131165197;
+			
+			// aapt resource value: 0x7f07000e
+			public const int textViewTempValue = 2131165198;
 			
 			// aapt resource value: 0x7f07001c
 			public const int textViewTime = 2131165212;
@@ -247,9 +247,6 @@ namespace Domotica
 			// aapt resource value: 0x7f05000c
 			public const int debug_text = 2131034124;
 			
-			// aapt resource value: 0x7f05000f
-			public const int debug_value = 2131034127;
-			
 			// aapt resource value: 0x7f05000d
 			public const int edit_text_minutes = 2131034125;
 			
@@ -276,6 +273,9 @@ namespace Domotica
 			
 			// aapt resource value: 0x7f05000b
 			public const int sensor_value = 2131034123;
+			
+			// aapt resource value: 0x7f05000f
+			public const int temp_value = 2131034127;
 			
 			// aapt resource value: 0x7f050001
 			public const int timer_state_text = 2131034113;

@@ -61,7 +61,7 @@ namespace Domotica
         Button buttonConnect;
         Button buttonStartTimer;
         TextView textViewServerConnect, textViewTimerStateValue;
-        public TextView textViewSensorValue, textViewDebugValue;
+        public TextView textViewSensorValue, textViewTempValue;
         EditText editTextIPAddress, editTextIPPort, editTextMinutes, editTextSeconds;
         Switch switch1, switch2, switch3;
         RadioButton radioButton1, radioButton2, radioButton3;
@@ -93,7 +93,7 @@ namespace Domotica
             textViewTimerStateValue = FindViewById<TextView>(Resource.Id.textViewTimerStateValue);
             textViewServerConnect = FindViewById<TextView>(Resource.Id.textViewServerConnect);
             textViewSensorValue = FindViewById<TextView>(Resource.Id.textViewSensorValue);
-            textViewDebugValue = FindViewById<TextView>(Resource.Id.textViewDebugValue);
+            textViewTempValue = FindViewById<TextView>(Resource.Id.textViewTempValue);
             editTextIPAddress = FindViewById<EditText>(Resource.Id.editTextIPAddress);
             editTextIPPort = FindViewById<EditText>(Resource.Id.editTextIPPort);
             editTextMinutes = FindViewById<EditText>(Resource.Id.editTextMinutes);
@@ -109,7 +109,9 @@ namespace Domotica
             UpdateConnectionState(4, "Disconnected");
 
             // Init commandlist, scheduled by socket timer
-            commandList.Add(new Tuple<string, TextView>("a", textViewSensorValue));
+            commandList.Add(new Tuple<string, TextView>("a", textViewTempValue));
+            commandList.Add(new Tuple<string, TextView>("b", textViewSensorValue));
+
 
             // activation of connector -> threaded sockets otherwise -> simple sockets 
             // connector = new Connector(this);

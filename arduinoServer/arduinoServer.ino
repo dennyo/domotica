@@ -48,7 +48,7 @@ int activeSwitch = 0;
 
 void setup()
 { 
-  mySwitch.enableTransmit(4);
+  mySwitch.enableTransmit(3);
 
    //Init I/O-pins
    pinMode(switchPin, INPUT);            // hardware switch, for changing pin state
@@ -115,8 +115,11 @@ void loop()
    while (ethernetClient.connected()) 
    {
       checkEvent(switchPin, pinState);
+      delay(50);
       checkEvent(switchPin, pinState1);
+      delay(50);
       checkEvent(switchPin, pinState2);
+      delay(50);
       checkEvent(switchPin, pinState3);
       sensorValue = readSensor(0, 100); 
         
