@@ -48,7 +48,10 @@ namespace Domotica
 			public const int blue = 2130968576;
 			
 			// aapt resource value: 0x7f040001
-			public const int white = 2130968577;
+			public const int darkGrey = 2130968577;
+			
+			// aapt resource value: 0x7f040002
+			public const int white = 2130968578;
 			
 			static Color()
 			{

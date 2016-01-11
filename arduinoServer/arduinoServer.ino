@@ -25,13 +25,14 @@
 byte mac[] = { 0x40, 0x6c, 0x8f, 0x36, 0x84, 0x8a }; // Ethernet adapter shield S. Oosterhaven
 int ethPort = 3300;                                  // Take a free port (check your router)
 
-#define RFPin        4  // output, pin to control the RF-sender (and Click-On Click-Off-device)
+#define RFPin        3  // output, pin to control the RF-sender (and Click-On Click-Off-device)
 #define lowPin       5  // output, always LOW
 #define highPin      6  // output, always HIGH
 #define switchPin    7  // input, connected to some kind of inputswitch
 #define ledPin       8  // output, led used for "connect state": blinking = searching; continuously = connected
 #define infoPin      9  // output, more information
-#define analogPin    0  // sensor value
+#define analogPin    0  // sensor light value
+#define analogPin    1  // sensor temp value
 
 EthernetServer server(ethPort);              // EthernetServer instance (listening on port <ethPort>).
 ActionTransmitter actionTransmitter(RFPin);  // Intantiate a new ActionTransmitter remote, old model, use pin <RFPin>
@@ -41,7 +42,8 @@ bool pinState2 = false;
 bool pinState3 = false;
 bool pinState = false;                   // Variable to store actual pin state
 bool pinChange = false;                  // Variable to store actual pin change
-int  sensorValue = 0;                    // Variable to store actual sensor value
+int  sensorLightValue = 0;                    // Variable to store actual sensor light value
+int sensorTempValue = 0;                  // Variable to store actual sensor temp value
 RCSwitch mySwitch = RCSwitch(); // declaratie van mySwitch
 int activeSwitch = 0;
 
@@ -115,13 +117,12 @@ void loop()
    while (ethernetClient.connected()) 
    {
       checkEvent(switchPin, pinState);
-      delay(50);
       checkEvent(switchPin, pinState1);
-      delay(50);
       checkEvent(switchPin, pinState2);
-      delay(50);
       checkEvent(switchPin, pinState3);
-      sensorValue = readSensor(0, 100); 
+      sensorLightValue = readSensor(0, 100);
+     float val=analogRead(1);
+      sensorTempValue=((1024 - val) /27.3); 
         
       // Activate pin based op pinState
       if (pinChange) {
@@ -133,22 +134,20 @@ void loop()
         {
           if (pinState1) { digitalWrite(ledPin, HIGH); mySwitch.send(9321647, 24); } // Turn RF-Switch 1 on
           else { digitalWrite(ledPin, LOW); mySwitch.send(9321646, 24); }  // Turn RF-Switch 1 off
-          delay(100); // delay depends on device
         }
       else if(activeSwitch==2)
         {
           if (pinState2) { digitalWrite(ledPin, HIGH); mySwitch.send(9321645, 24);} // Turn RF-Switch 2 on
           else { digitalWrite(ledPin, LOW); mySwitch.send(9321644, 24);}  // Turn RF-Switch 2 off
-          delay(100); // delay depends on device
         }
       else if(activeSwitch==3)
         {
           if (pinState3) { digitalWrite(ledPin, HIGH); mySwitch.send(9321643, 24); } // Turn RF-Switch 3 on
           else { digitalWrite(ledPin, LOW); mySwitch.send(9321642, 24); }  // Turn RF-Switch 3 off
-          delay(100); // delay depends on device
         }
          activeSwitch = 0;
          pinChange = false;
+         delay(100); // delay depends on device
       }
    
       // Execute when byte is received.
@@ -174,8 +173,13 @@ void executeCommand(char cmd)
          // Command protocol
          Serial.print("["); Serial.print(cmd); Serial.print("] -> ");
          switch (cmd) {
-         case 'a': // Report sensor value to the app  
-            intToCharBuf(sensorValue, buf, 4);                // convert to charbuffer
+         case 'a': // Report sensor light value to the app  
+            intToCharBuf(sensorLightValue, buf, 4);                // convert to charbuffer
+            server.write(buf, 4);                             // response is always 4 chars (\n included)
+            Serial.print("Sensor: "); Serial.println(buf);
+            break;
+         case 'b': // Report sensor temp value to the app  
+            intToCharBuf(sensorTempValue, buf, 4);                // convert to charbuffer
             server.write(buf, 4);                             // response is always 4 chars (\n included)
             Serial.print("Sensor: "); Serial.println(buf);
             break;
