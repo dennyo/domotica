@@ -66,6 +66,7 @@ namespace Domotica
         Switch switch1, switch2, switch3, switch4;
         RadioButton radioButton1, radioButton2, radioButton3;
         Button buttonAllOn, buttonAllOff;
+        ImageButton buttonStartMusic, buttonStopMusic;
 
         Timer timerClock, timerSockets;             // Timers   
         Socket socket = null;                       // Socket   
@@ -103,6 +104,8 @@ namespace Domotica
             radioButton3 = FindViewById<RadioButton>(Resource.Id.radioButton3);
             buttonAllOn = FindViewById<Button>(Resource.Id.buttonAllOn);
             buttonAllOff = FindViewById<Button>(Resource.Id.buttonAllOff);
+            buttonStartMusic = FindViewById<ImageButton>(Resource.Id.buttonStartMusic);
+            buttonStopMusic = FindViewById<ImageButton>(Resource.Id.buttonStopMusic);
 
             List<Switch> switches = new List<Switch> { switch1, switch2, switch3 };
 
@@ -251,8 +254,32 @@ namespace Domotica
                     seconds = Convert.ToInt32(editTextSeconds.Text);
                     timer(minutes, seconds);               
                 };
+            buttonStartMusic.Click += (sender,e) =>
+            {
+                if (connector == null) // -> simple sockets
+                {
+                    socket.Send(Encoding.ASCII.GetBytes("m"));                 // Send toggle-command to the Arduino
+                }
+                else // -> threaded sockets
+                {
+                    if (connector.CheckStarted()) connector.SendMessage("m");  // Send toggle-command to the Arduino
+                }
 
-}
+            };
+            buttonStopMusic.Click += (sender, e) =>
+            {
+                if (connector == null) // -> simple sockets
+                {
+                    socket.Send(Encoding.ASCII.GetBytes("n"));                 // Send toggle-command to the Arduino
+                }
+                else // -> threaded sockets
+                {
+                    if (connector.CheckStarted()) connector.SendMessage("n");  // Send toggle-command to the Arduino
+                }
+
+            };
+
+        }
 
         //Send command to server and wait for response (blocking)
         //Method should only be called when socket existst

@@ -17,19 +17,23 @@ public final class R {
     }
     public static final class drawable {
         public static final int background=0x7f020000;
-        public static final int icon=0x7f020001;
+        public static final int ic_media_play=0x7f020001;
+        public static final int ic_media_stop=0x7f020002;
+        public static final int icon=0x7f020003;
     }
     public static final class id {
         public static final int RadioGroup=0x7f070016;
-        public static final int abort=0x7f070021;
+        public static final int abort=0x7f070024;
         public static final int buttonAllOff=0x7f070013;
         public static final int buttonAllOn=0x7f070014;
         public static final int buttonConnect=0x7f070008;
+        public static final int buttonStartMusic=0x7f070021;
         public static final int buttonStartTimer=0x7f07001b;
+        public static final int buttonStopMusic=0x7f070022;
         public static final int editTextIPAddress=0x7f070007;
         public static final int editTextMinutes=0x7f07001d;
         public static final int editTextSeconds=0x7f07001c;
-        public static final int exit=0x7f070020;
+        public static final int exit=0x7f070023;
         public static final int linearLayout1=0x7f070000;
         public static final int radioButton1=0x7f070017;
         public static final int radioButton2=0x7f070018;
@@ -43,6 +47,7 @@ public final class R {
         public static final int textView2=0x7f07000f;
         public static final int textView3=0x7f070011;
         public static final int textView4=0x7f07001e;
+        public static final int textView5=0x7f070020;
         public static final int textViewIPAddress=0x7f070006;
         public static final int textViewRadioBtn=0x7f070015;
         public static final int textViewSensor=0x7f070009;

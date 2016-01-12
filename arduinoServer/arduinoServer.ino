@@ -50,8 +50,17 @@ bool groupmode = false;
 int thresholdValue = 80; //verander naar afstelling van je lichtsensor.
 bool isSwitchOn = false;
 bool isDS1 = false;
+bool playMusic = false;
+int thisNote = 0;
 ElroTransmitter elroTransmitter(RFPin); //vervang dit met de transmitter die bij jouw schakelaar hoort
-
+int melody[] = {
+1319,    1319,    1319,    1319,    1319,    1319,    1319,    1568,    1047,    1175,
+1319,    1397,    1397,    1397,    1397,    1397,    1319,    1319,    1319,    1319,
+1175,    1175,    1319,    1175,    1568,    1319,    1319,    1319,    1319,    1319,
+1319,    1319,    1568,    1047,    1175,    1319,    1397,    1397,    1397,    1397,
+1397,    1319,    1319,    1319,    1568,    1568,    1319,    1175,    1047};
+// note durations: 4 = quarter note, 8 = eighth note, etc.:
+int noteDurations[] = { 4, 4, 2, 4, 4, 2, 4, 4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 4, 4, 2, 4, 4, 2, 4, 4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1};
 
 void setup()
 { 
@@ -125,7 +134,7 @@ void loop()
       checkEvent(switchPin, pinState2);
       checkEvent(switchPin, pinState3);
       sensorLightValue = readSensor(0, 100);
-     float val=analogRead(1);
+      float val=analogRead(1);
       sensorTempValue=((1024 - val) /27.3); 
         
       // Activate pin based op pinState
@@ -183,6 +192,13 @@ void loop()
   }
   delay(1000);
  }
+
+  if(playMusic==true)
+  {
+    thisNote++;
+    if(thisNote>=49){thisNote = 0; playMusic=false;}
+    else{ play();}
+  }
    
       // Execute when byte is received.
       while (ethernetClient.available())
@@ -254,8 +270,16 @@ void executeCommand(char cmd)
             if (groupmode==true) { groupmode = false; Serial.println("Set Groupmode \"OFF\""); }
             else { groupmode = true; Serial.println("Set Groupmode \"ON\""); }  
             break;
-         default:
-            digitalWrite(infoPin, LOW);
+         case 'm':
+            playMusic = true;
+            Serial.println("Start Playing Jingle Bells");
+            break;
+         case 'n':
+            playMusic = false;
+            Serial.println("Stop Playing Jingle Bells");
+            break;
+           default:
+           digitalWrite(infoPin, LOW);
          }
 }
 
@@ -346,5 +370,10 @@ int getIPComputerNumberOffset(IPAddress address, int offset)
     return getIPComputerNumber(address) - offset;
 }
 
-
+void play() 
+{
+    tone(7, melody[thisNote],(1000/noteDurations[thisNote]));
+    delay((1000/noteDurations[thisNote])*1.30);
+    noTone(7);
+}
 
