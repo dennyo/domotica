@@ -57,15 +57,8 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@id/textViewServer"
             android:textColor="@color/white" />
-        <TextView
-            android:text="@string/ip_port_text"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:id="@+id/textViewIPPort"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/textViewServerConnect" />
         <EditText
-            android:layout_width="125dp"
+            android:layout_width="150dp"
             android:layout_height="40dp"
             android:id="@+id/editTextIPAddress"
             android:text="@string/ip_address_value"
@@ -83,32 +76,16 @@
             android:layout_marginBottom="5dp" />
         <Button
             android:text="@string/button_connect_text"
-            android:layout_width="115dp"
+            android:layout_width="200dp"
             android:layout_height="40dp"
-            android:layout_below="@id/textViewIPPort"
+            android:layout_below="@id/textViewServerConnect"
             android:id="@+id/buttonConnect"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
             android:textColor="@color/white"
             android:background="@color/darkGrey"
-            android:layout_marginLeft="10dp" />
-        <EditText
-            android:layout_width="75dp"
-            android:layout_height="40dp"
-            android:id="@+id/editTextIPPort"
-            android:text="@string/ip_port_value"
-            android:lines="1"
-            android:minLines="1"
-            android:maxLines="1"
-            android:inputType="numberDecimal"
-            android:digits="0123456789"
-            android:layout_below="@id/textViewIPPort"
-            android:layout_toLeftOf="@id/buttonConnect"
-            android:gravity="center"
-            android:background="@color/white"
-            android:textColor="#FF00999C"
-            android:textCursorDrawable="@null"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp" />
         <TextView
             android:text="@string/sensor_text"
             android:layout_width="150dp"
@@ -124,7 +101,7 @@
             android:layout_height="30dp"
             android:id="@+id/textViewSensorValue"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/editTextIPPort"
+            android:layout_below="@id/buttonConnect"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
         <TextView
@@ -311,7 +288,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/buttonStartTimer"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/switch4"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
         <Switch

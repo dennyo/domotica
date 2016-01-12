@@ -85,83 +85,86 @@ namespace Domotica
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f070020
-			public const int abort = 2131165216;
-			
-			// aapt resource value: 0x7f070015
-			public const int buttonAllOff = 2131165205;
-			
 			// aapt resource value: 0x7f070016
-			public const int buttonAllOn = 2131165206;
+			public const int RadioGroup = 2131165206;
 			
-			// aapt resource value: 0x7f070009
-			public const int buttonConnect = 2131165193;
+			// aapt resource value: 0x7f070021
+			public const int abort = 2131165217;
 			
-			// aapt resource value: 0x7f07001c
-			public const int buttonStartTimer = 2131165212;
+			// aapt resource value: 0x7f070013
+			public const int buttonAllOff = 2131165203;
+			
+			// aapt resource value: 0x7f070014
+			public const int buttonAllOn = 2131165204;
 			
 			// aapt resource value: 0x7f070008
-			public const int editTextIPAddress = 2131165192;
+			public const int buttonConnect = 2131165192;
 			
-			// aapt resource value: 0x7f07000a
-			public const int editTextIPPort = 2131165194;
+			// aapt resource value: 0x7f07001b
+			public const int buttonStartTimer = 2131165211;
 			
-			// aapt resource value: 0x7f07001e
-			public const int editTextMinutes = 2131165214;
+			// aapt resource value: 0x7f070007
+			public const int editTextIPAddress = 2131165191;
 			
 			// aapt resource value: 0x7f07001d
-			public const int editTextSeconds = 2131165213;
+			public const int editTextMinutes = 2131165213;
 			
-			// aapt resource value: 0x7f07001f
-			public const int exit = 2131165215;
+			// aapt resource value: 0x7f07001c
+			public const int editTextSeconds = 2131165212;
+			
+			// aapt resource value: 0x7f070020
+			public const int exit = 2131165216;
 			
 			// aapt resource value: 0x7f070000
 			public const int linearLayout1 = 2131165184;
 			
+			// aapt resource value: 0x7f070017
+			public const int radioButton1 = 2131165207;
+			
 			// aapt resource value: 0x7f070018
-			public const int radioButton1 = 2131165208;
+			public const int radioButton2 = 2131165208;
 			
 			// aapt resource value: 0x7f070019
-			public const int radioButton2 = 2131165209;
-			
-			// aapt resource value: 0x7f07001a
-			public const int radioButton3 = 2131165210;
+			public const int radioButton3 = 2131165209;
 			
 			// aapt resource value: 0x7f070001
 			public const int relativeLayout1 = 2131165185;
 			
+			// aapt resource value: 0x7f07000e
+			public const int switch1 = 2131165198;
+			
 			// aapt resource value: 0x7f070010
-			public const int switch1 = 2131165200;
+			public const int switch2 = 2131165200;
 			
 			// aapt resource value: 0x7f070012
-			public const int switch2 = 2131165202;
+			public const int switch3 = 2131165202;
 			
-			// aapt resource value: 0x7f070014
-			public const int switch3 = 2131165204;
+			// aapt resource value: 0x7f07001f
+			public const int switch4 = 2131165215;
+			
+			// aapt resource value: 0x7f07000d
+			public const int textView1 = 2131165197;
 			
 			// aapt resource value: 0x7f07000f
-			public const int textView1 = 2131165199;
+			public const int textView2 = 2131165199;
 			
 			// aapt resource value: 0x7f070011
-			public const int textView2 = 2131165201;
+			public const int textView3 = 2131165201;
 			
-			// aapt resource value: 0x7f070013
-			public const int textView3 = 2131165203;
+			// aapt resource value: 0x7f07001e
+			public const int textView4 = 2131165214;
 			
 			// aapt resource value: 0x7f070006
 			public const int textViewIPAddress = 2131165190;
 			
-			// aapt resource value: 0x7f070007
-			public const int textViewIPPort = 2131165191;
+			// aapt resource value: 0x7f070015
+			public const int textViewRadioBtn = 2131165205;
 			
-			// aapt resource value: 0x7f070017
-			public const int textViewRadioBtn = 2131165207;
+			// aapt resource value: 0x7f070009
+			public const int textViewSensor = 2131165193;
 			
-			// aapt resource value: 0x7f07000b
-			public const int textViewSensor = 2131165195;
-			
-			// aapt resource value: 0x7f07000c
-			public const int textViewSensorValue = 2131165196;
+			// aapt resource value: 0x7f07000a
+			public const int textViewSensorValue = 2131165194;
 			
 			// aapt resource value: 0x7f070004
 			public const int textViewServer = 2131165188;
@@ -169,14 +172,14 @@ namespace Domotica
 			// aapt resource value: 0x7f070005
 			public const int textViewServerConnect = 2131165189;
 			
-			// aapt resource value: 0x7f07000d
-			public const int textViewTempSensor = 2131165197;
+			// aapt resource value: 0x7f07000b
+			public const int textViewTempSensor = 2131165195;
 			
-			// aapt resource value: 0x7f07000e
-			public const int textViewTempValue = 2131165198;
+			// aapt resource value: 0x7f07000c
+			public const int textViewTempValue = 2131165196;
 			
-			// aapt resource value: 0x7f07001b
-			public const int textViewTime = 2131165211;
+			// aapt resource value: 0x7f07001a
+			public const int textViewTime = 2131165210;
 			
 			// aapt resource value: 0x7f070002
 			public const int textViewTimerState = 2131165186;

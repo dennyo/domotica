@@ -62,7 +62,7 @@ namespace Domotica
         Button buttonStartTimer;
         TextView textViewServerConnect, textViewTimerStateValue;
         public TextView textViewSensorValue, textViewTempValue;
-        EditText editTextIPAddress, editTextIPPort, editTextMinutes, editTextSeconds;
+        EditText editTextIPAddress, editTextMinutes, editTextSeconds;
         Switch switch1, switch2, switch3, switch4;
         RadioButton radioButton1, radioButton2, radioButton3;
         Button buttonAllOn, buttonAllOff;
@@ -96,7 +96,6 @@ namespace Domotica
             textViewSensorValue = FindViewById<TextView>(Resource.Id.textViewSensorValue);
             textViewTempValue = FindViewById<TextView>(Resource.Id.textViewTempValue);
             editTextIPAddress = FindViewById<EditText>(Resource.Id.editTextIPAddress);
-            editTextIPPort = FindViewById<EditText>(Resource.Id.editTextIPPort);
             editTextMinutes = FindViewById<EditText>(Resource.Id.editTextMinutes);
             editTextSeconds = FindViewById<EditText>(Resource.Id.editTextSeconds);
             radioButton1 = FindViewById<RadioButton>(Resource.Id.radioButton1);
@@ -149,17 +148,17 @@ namespace Domotica
                 buttonConnect.Click += (sender, e) =>
                 {
                     //Validate the user input (IP address and port)
-                    if (CheckValidIpAddress(editTextIPAddress.Text) && CheckValidPort(editTextIPPort.Text))
+                    if (CheckValidIpAddress(editTextIPAddress.Text) && CheckValidPort("3300"))
                     {
                         if (connector == null) // -> simple sockets
                         {
-                            ConnectSocket(editTextIPAddress.Text, editTextIPPort.Text);
+                            ConnectSocket(editTextIPAddress.Text, "3300");
                         }
                         else // -> threaded sockets
                         {
                             //Stop the thread If the Connector thread is already started.
                             if (connector.CheckStarted()) connector.StopConnector();
-                            connector.StartConnector(editTextIPAddress.Text, editTextIPPort.Text);
+                            connector.StartConnector(editTextIPAddress.Text, "3300");
                         }
                     }
                     else UpdateConnectionState(3, "Please check IP");
