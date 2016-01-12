@@ -46,6 +46,11 @@ int  sensorLightValue = 0;                    // Variable to store actual sensor
 int sensorTempValue = 0;                  // Variable to store actual sensor temp value
 RCSwitch mySwitch = RCSwitch(); // declaratie van mySwitch
 int activeSwitch = 0;
+bool groupmode = false;
+int thresholdValue = 80; //verander naar afstelling van je lichtsensor.
+bool isSwitchOn = false;
+bool isDS1 = false;
+ElroTransmitter elroTransmitter(RFPin); //vervang dit met de transmitter die bij jouw schakelaar hoort
 
 
 void setup()
@@ -88,7 +93,7 @@ void setup()
    //Start the ethernet server.
    server.begin();
 
-   // Print IP-address and led indication of server state
+   // Print IP -                    address and led indication of server state
    Serial.print("Listening address: ");
    Serial.print(Ethernet.localIP());
    
@@ -109,7 +114,6 @@ void loop()
       blink(ledPin);
       return; // wait for connection and blink LED
    }
-
    Serial.println("Application connected");
    digitalWrite(ledPin, LOW);
 
@@ -132,23 +136,53 @@ void loop()
         }   
       else if(activeSwitch==1)
         {
-          if (pinState1) {mySwitch.send(9321647, 24);} // Turn RF-Switch 1 on
-          else {mySwitch.send(9321646, 24);} // Turn RF-Switch 1 off
+          if (pinState1)mySwitch.send(9321647, 24); // Turn RF-Switch 1 on
+          else  mySwitch.send(9321646, 24);  // Turn RF-Switch 1 off
         }
       else if(activeSwitch==2)
         {
-          if (pinState2) {mySwitch.send(9321645, 24);} // Turn RF-Switch 2 on
-          else {mySwitch.send(9321644, 24);}  // Turn RF-Switch 2 off
+          if (pinState2)  mySwitch.send(9321645, 24); // Turn RF-Switch 2 on
+          else  mySwitch.send(9321644, 24);  // Turn RF-Switch 2 off
         }
       else if(activeSwitch==3)
         {
-          if (pinState3) {mySwitch.send(9321643, 24);} // Turn RF-Switch 3 on
-          else {mySwitch.send(9321642, 24);} // Turn RF-Switch 3 off
+          if (pinState3)  mySwitch.send(9321643, 24);  // Turn RF-Switch 3 on
+          else  mySwitch.send(9321642, 24);  // Turn RF-Switch 3 off
         }
          activeSwitch = 0;
          pinChange = false;
-         delay(100);
+         delay(100); // delay depends on device
       }
+
+      
+    if (groupmode == true){
+  if(sensorLightValue >= thresholdValue) //ik ga hiervan uit van een ldr, als ik licht op de sensor schijnt wordt de waarde lager; is dat bij jullie niet het geval verander "<=" naar ">="
+  {    
+    if(!isSwitchOn && isDS1 == false)
+    {
+      Serial.println("transmitting on signal to switch");
+      mySwitch.send(9321647, 24); //vervang dit met de code die bij jouw schakelaar hoort
+      isSwitchOn = true;
+    }
+    if(isSwitchOn && isDS1 == true) 
+    {
+      Serial.println("transmitting off signal to switch");
+      mySwitch.send(9321646, 24); //vervang dit met de code die bij jouw schakelaar hoort
+      isSwitchOn = false;
+    }
+    
+  }
+  else if(sensorLightValue <= thresholdValue)
+  {
+    if(isSwitchOn && isDS1 == false)
+    {
+      Serial.println("transmitting off signal to switch");
+      mySwitch.send(9321646, 24); //vervang dit met de code die bij jouw schakelaar hoort
+      isSwitchOn = false;
+    }
+  }
+  delay(1000);
+ }
    
       // Execute when byte is received.
       while (ethernetClient.available())
@@ -158,6 +192,8 @@ void loop()
          inByte = NULL;                         // Reset the read byte.
       } 
    }
+   
+  delay(1000);
    Serial.println("Application disonnected");
 }
 
@@ -188,8 +224,14 @@ void executeCommand(char cmd)
             else { server.write("OFF\n"); Serial.println("Pin state is OFF"); }
             break;
          case '1': // Toggle state of Switch 1; If state is already ON then turn it OFF
-            if (pinState1) { pinState1 = false; Serial.println("Set pin 1 state to \"OFF\""); }
-            else { pinState1 = true; Serial.println("Set pin 1 state to \"ON\""); }  
+            if (pinState1) { 
+              isSwitchOn = false; pinState1 = false; Serial.println("Set pin 1 state to \"OFF\"");
+              if(groupmode == true){ isDS1=false;}
+              }
+            else { 
+              isSwitchOn = true; pinState1 = true; Serial.println("Set pin 1 state to \"ON\"");
+              if(groupmode == true) { isDS1=true;}
+            }  
             pinChange = true; 
             activeSwitch = 1;
             break;
@@ -207,6 +249,10 @@ void executeCommand(char cmd)
             break;
          case 'i':    
             digitalWrite(infoPin, HIGH);
+            break;\
+         case 'g':
+            if (groupmode==true) { groupmode = false; Serial.println("Set Groupmode \"OFF\""); }
+            else { groupmode = true; Serial.println("Set Groupmode \"ON\""); }  
             break;
          default:
             digitalWrite(infoPin, LOW);

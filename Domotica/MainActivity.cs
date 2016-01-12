@@ -109,9 +109,8 @@ namespace Domotica
             UpdateConnectionState(4, "Disconnected");
 
             // Init commandlist, scheduled by socket timer
-            commandList.Add(new Tuple<string, TextView>("a", textViewTempValue));
-            commandList.Add(new Tuple<string, TextView>("b", textViewSensorValue));
-
+            commandList.Add(new Tuple<string, TextView>("a", textViewSensorValue));
+            commandList.Add(new Tuple<string, TextView>("b", textViewTempValue));
 
             // activation of connector -> threaded sockets otherwise -> simple sockets 
             // connector = new Connector(this);
