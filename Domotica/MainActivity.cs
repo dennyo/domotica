@@ -63,7 +63,7 @@ namespace Domotica
         TextView textViewServerConnect, textViewTimerStateValue;
         public TextView textViewSensorValue, textViewTempValue;
         EditText editTextIPAddress, editTextIPPort, editTextMinutes, editTextSeconds;
-        Switch switch1, switch2, switch3;
+        Switch switch1, switch2, switch3, switch4;
         RadioButton radioButton1, radioButton2, radioButton3;
         Button buttonAllOn, buttonAllOff;
 
@@ -90,6 +90,7 @@ namespace Domotica
             switch1 = FindViewById<Switch>(Resource.Id.switch1);
             switch2 = FindViewById<Switch>(Resource.Id.switch2);
             switch3 = FindViewById<Switch>(Resource.Id.switch3);
+            switch4 = FindViewById<Switch>(Resource.Id.switch4);
             textViewTimerStateValue = FindViewById<TextView>(Resource.Id.textViewTimerStateValue);
             textViewServerConnect = FindViewById<TextView>(Resource.Id.textViewServerConnect);
             textViewSensorValue = FindViewById<TextView>(Resource.Id.textViewSensorValue);
@@ -199,8 +200,19 @@ namespace Domotica
                         if (connector.CheckStarted()) connector.SendMessage("3");  // Send toggle-command to the Arduino
                     }
                 };
+            switch4.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
+            {
+                if (connector == null) // -> simple sockets
+                {
+                    socket.Send(Encoding.ASCII.GetBytes("g"));                 // Send toggle-command to the Arduino
+                }
+                else // -> threaded sockets
+                {
+                    if (connector.CheckStarted()) connector.SendMessage("g");  // Send toggle-command to the Arduino
+                }
+            };
 
-                radioButton1.Click += RadioButtonClick;
+            radioButton1.Click += RadioButtonClick;
                 radioButton2.Click += RadioButtonClick;
                 radioButton3.Click += RadioButtonClick;
 
