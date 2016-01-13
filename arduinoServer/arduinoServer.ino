@@ -18,7 +18,6 @@
 // Include files.
 #include <SPI.h>                  // Ethernet shield uses SPI-interface
 #include <Ethernet.h>             // Ethernet library
-#include <RemoteTransmitter.h>    // Remote Control (Action, old model)
 #include <RCSwitch.h>             // Remote Control (Action, new model)
 
 //Set Ethernet Shield MAC address  (check yours)
@@ -35,32 +34,33 @@ int ethPort = 3300;                                  // Take a free port (check 
 #define analogPin    1  // sensor temp value
 
 EthernetServer server(ethPort);              // EthernetServer instance (listening on port <ethPort>).
-ActionTransmitter actionTransmitter(RFPin);  // Intantiate a new ActionTransmitter remote, old model, use pin <RFPin>
-
-bool pinState1 = false;
-bool pinState2 = false;
-bool pinState3 = false;
-bool pinState = false;                   // Variable to store actual pin state
-bool pinChange = false;                  // Variable to store actual pin change
-int  sensorLightValue = 0;                    // Variable to store actual sensor light value
+bool pinState1 = false;                   // Stores pinstate of switcht 1
+bool pinState2 = false;                   // Stores pinstate of switcht 2
+bool pinState3 = false;                   // Stores pinstate of switcht 3
+bool pinChange = false;                   // Variable to store actual pin change
+int  sensorLightValue = 0;                // Variable to store actual sensor light value
 int sensorTempValue = 0;                  // Variable to store actual sensor temp value
-RCSwitch mySwitch = RCSwitch(); // declaratie van mySwitch
-int activeSwitch = 0;
-bool groupmode = false;
-int thresholdValue = 80; //verander naar afstelling van je lichtsensor.
-bool isSwitchOn = false;
-bool isDS1 = false;
-bool playMusic = false;
-int thisNote = 0;
-ElroTransmitter elroTransmitter(RFPin); //vervang dit met de transmitter die bij jouw schakelaar hoort
-int melody[] = {
+RCSwitch mySwitch = RCSwitch();           // declaratie van mySwitch
+int activeSwitch = 0;                     // Stores which "stopcontact" to change
+bool groupmode = false;                   // Stores if groupmode is active or inactive                  
+int thresholdValue = 80;                  // Tresholdvalue lightsensor (groupassignment)
+bool isSwitchOn = false;                  // Checks if switch is on (groupassignment)
+bool isDS1 = false;                       // When first in groupassignment
+bool playMusic = false;                   // Checks if switch for music is on
+bool lightSensor = true;                  // Stores the state of the light sensor(on/off)
+bool tempSensor = true;                   // Stores the state of the temp sensor(on/off)
+int thisNote = 0;                         // Stores how far the song is
+int melody[] = {                          // The hight of the tone
 1319,    1319,    1319,    1319,    1319,    1319,    1319,    1568,    1047,    1175,
 1319,    1397,    1397,    1397,    1397,    1397,    1319,    1319,    1319,    1319,
 1175,    1175,    1319,    1175,    1568,    1319,    1319,    1319,    1319,    1319,
 1319,    1319,    1568,    1047,    1175,    1319,    1397,    1397,    1397,    1397,
 1397,    1319,    1319,    1319,    1568,    1568,    1319,    1175,    1047};
-// note durations: 4 = quarter note, 8 = eighth note, etc.:
-int noteDurations[] = { 4, 4, 2, 4, 4, 2, 4, 4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 4, 4, 2, 4, 4, 2, 4, 4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1};
+int noteDurations[] = {                   // note durations: 4 = quarter note, 8 = eighth note, etc. (duration of eacht tone):
+  4, 4, 2, 4, 4, 2, 4, 4, 4, 4, 1, 4, 
+  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 
+  2, 4, 4, 2, 4, 4, 2, 4, 4, 4, 4, 1, 
+  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1};
 
 void setup()
 { 
@@ -68,7 +68,7 @@ void setup()
 
    //Init I/O-pins
    pinMode(switchPin, INPUT);            // hardware switch, for changing pin state
-   pinMode(lowPin, OUTPUT);
+   pinMode(lowPin, OUTPUT);              
    pinMode(highPin, OUTPUT);
    pinMode(RFPin, OUTPUT);
    pinMode(ledPin, OUTPUT);
@@ -129,13 +129,11 @@ void loop()
    // Do what needs to be done while the socket is connected.
    while (ethernetClient.connected()) 
    {
-      checkEvent(switchPin, pinState);
       checkEvent(switchPin, pinState1);
       checkEvent(switchPin, pinState2);
       checkEvent(switchPin, pinState3);
-      sensorLightValue = readSensor(0, 100);
-      float val=analogRead(1);
-      sensorTempValue=((1024 - val) /27.3); 
+      if(lightSensor){ sensorLightValue = readSensor(0, 100); }
+      if(tempSensor) {float val=analogRead(1); sensorTempValue=((1024 - val) /27.3); }
         
       // Activate pin based op pinState
       if (pinChange) {
@@ -164,53 +162,61 @@ void loop()
       }
 
       
-    if (groupmode == true){
-  if(sensorLightValue >= thresholdValue) //ik ga hiervan uit van een ldr, als ik licht op de sensor schijnt wordt de waarde lager; is dat bij jullie niet het geval verander "<=" naar ">="
-  {    
-    if(!isSwitchOn && isDS1 == false)
+    if (groupmode == true)
     {
-      Serial.println("transmitting on signal to switch");
-      mySwitch.send(9321647, 24); //vervang dit met de code die bij jouw schakelaar hoort
-      isSwitchOn = true;
-    }
-    if(isSwitchOn && isDS1 == true) 
-    {
-      Serial.println("transmitting off signal to switch");
-      mySwitch.send(9321646, 24); //vervang dit met de code die bij jouw schakelaar hoort
-      isSwitchOn = false;
-    }
-    
-  }
-  else if(sensorLightValue <= thresholdValue)
-  {
-    if(isSwitchOn && isDS1 == false)
-    {
-      Serial.println("transmitting off signal to switch");
-      mySwitch.send(9321646, 24); //vervang dit met de code die bij jouw schakelaar hoort
-      isSwitchOn = false;
-    }
-  }
-  delay(1000);
- }
-
-  if(playMusic==true)
-  {
-    thisNote++;
-    if(thisNote>=49){thisNote = 0; playMusic=false;}
-    else{ play();}
-  }
-   
-      // Execute when byte is received.
-      while (ethernetClient.available())
+      if(sensorLightValue >= thresholdValue)  // if sensorlightvalue is higher then the threshold
+      {    
+        if(!isSwitchOn && isDS1 == false)
+        {
+          Serial.println("transmitting on signal to switch");
+          mySwitch.send(9321647, 24);           // if "stopcontact is not on change to on
+          isSwitchOn = true;
+        }
+        if(isSwitchOn && isDS1 == true) 
+        {
+          Serial.println("transmitting off signal to switch");
+          mySwitch.send(9321646, 24);           // if "stopcontact is on change to not on
+          isSwitchOn = false;
+        }
+      }
+  
+      else if(sensorLightValue <= thresholdValue) // if sensorlightvalue is lower then the threshold
       {
-         char inByte = ethernetClient.read();   // Get byte from the client.
-         executeCommand(inByte);                // Wait for command to execute
-         inByte = NULL;                         // Reset the read byte.
-      } 
-   }
+        if(isSwitchOn && isDS1 == false)
+        {
+          Serial.println("transmitting off signal to switch");
+          mySwitch.send(9321646, 24);             // if "stopcontact is on change to not on
+          isSwitchOn = false;
+        }
+      }
+      delay(1000);
+    }
+
+    if(playMusic)         // if switch music is on
+    {
+      thisNote++;         // Counts a new note
+      if(thisNote >= 49)  // if thisNote is higher then the last note, reset.
+      {
+        thisNote = 0;
+        playMusic=false;
+      }
+    
+      else                // else note continues
+      { 
+        play();
+      }
+    }
    
+    // Execute when byte is received.
+    while (ethernetClient.available())
+    {
+      char inByte = ethernetClient.read();   // Get byte from the client.
+      executeCommand(inByte);                // Wait for command to execute
+      inByte = NULL;                         // Reset the read byte.
+    } 
+  }  
   delay(1000);
-   Serial.println("Application disonnected");
+  Serial.println("Application disonnected");
 }
 
 
@@ -226,25 +232,29 @@ void executeCommand(char cmd)
          Serial.print("["); Serial.print(cmd); Serial.print("] -> ");
          switch (cmd) {
          case 'a': // Report sensor light value to the app  
+            if(lightSensor)
+            {
             intToCharBuf(sensorLightValue, buf, 4);                // convert to charbuffer
-            server.write(buf, 4);                             // response is always 4 chars (\n included)
+            server.write(buf, 4);                                  // response is always 4 chars (\n included)
             Serial.print("Sensor: "); Serial.println(buf);
+            }
             break;
          case 'b': // Report sensor temp value to the app  
+            if(tempSensor)
+            {
             intToCharBuf(sensorTempValue, buf, 4);                // convert to charbuffer
-            server.write(buf, 4);                             // response is always 4 chars (\n included)
+            server.write(buf, 4);                                 // response is always 4 chars (\n included)
             Serial.print("Sensor: "); Serial.println(buf);
-            break;
-         case 's': // Report switch state to the app
-            if (pinState) { server.write(" ON\n"); Serial.println("Pin state is ON"); }  // always send 4 chars
-            else { server.write("OFF\n"); Serial.println("Pin state is OFF"); }
+            }
             break;
          case '1': // Toggle state of Switch 1; If state is already ON then turn it OFF
-            if (pinState1) { 
+            if (pinState1) 
+            { 
               isSwitchOn = false; pinState1 = false; Serial.println("Set pin 1 state to \"OFF\"");
               if(groupmode == true){ isDS1=false;}
-              }
-            else { 
+            }
+            else 
+            { 
               isSwitchOn = true; pinState1 = true; Serial.println("Set pin 1 state to \"ON\"");
               if(groupmode == true) { isDS1=true;}
             }  
@@ -262,6 +272,14 @@ void executeCommand(char cmd)
             else { pinState3 = true; Serial.println("Set pin 3 state to \"ON\""); }  
             pinChange = true; 
             activeSwitch = 3;
+            break;
+         case 'l':
+            if(lightSensor) { lightSensor = false; Serial.println("Turn light sensor off"); }
+            else { lightSensor = true; Serial.println("Turn light sensor on"); }
+            break;
+         case 't':
+            if(tempSensor) { tempSensor = false; Serial.println("Turn temp sensor off"); }
+            else { tempSensor = true; Serial.println("Turn temp sensor on"); }
             break;
          case 'i':    
             digitalWrite(infoPin, HIGH);
@@ -372,8 +390,7 @@ int getIPComputerNumberOffset(IPAddress address, int offset)
 
 void play() 
 {
-    tone(7, melody[thisNote],(1000/noteDurations[thisNote]));
+    tone(7, melody[thisNote],(1000/noteDurations[thisNote]));  // pin, which melody note, which duration of the note
     delay((1000/noteDurations[thisNote])*1.30);
-    noTone(7);
 }
 
