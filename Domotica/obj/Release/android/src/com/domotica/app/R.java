@@ -12,18 +12,16 @@ public final class R {
     }
     public static final class color {
         public static final int blue=0x7f040000;
-        public static final int darkGrey=0x7f040001;
-        public static final int white=0x7f040002;
+        public static final int white=0x7f040001;
     }
     public static final class drawable {
-        public static final int background=0x7f020000;
-        public static final int ic_media_play=0x7f020001;
-        public static final int ic_media_stop=0x7f020002;
-        public static final int icon=0x7f020003;
+        public static final int ic_media_play=0x7f020000;
+        public static final int ic_media_stop=0x7f020001;
+        public static final int icon=0x7f020002;
     }
     public static final class id {
         public static final int RadioGroup=0x7f070016;
-        public static final int abort=0x7f070024;
+        public static final int abort=0x7f070025;
         public static final int buttonAllOff=0x7f070013;
         public static final int buttonAllOn=0x7f070014;
         public static final int buttonConnect=0x7f070008;
@@ -33,7 +31,7 @@ public final class R {
         public static final int editTextIPAddress=0x7f070007;
         public static final int editTextMinutes=0x7f07001d;
         public static final int editTextSeconds=0x7f07001c;
-        public static final int exit=0x7f070023;
+        public static final int exit=0x7f070024;
         public static final int linearLayout1=0x7f070000;
         public static final int radioButton1=0x7f070017;
         public static final int radioButton2=0x7f070018;
@@ -59,6 +57,7 @@ public final class R {
         public static final int textViewTime=0x7f07001a;
         public static final int textViewTimerState=0x7f070002;
         public static final int textViewTimerStateValue=0x7f070003;
+        public static final int theme=0x7f070023;
     }
     public static final class layout {
         public static final int main=0x7f030000;

@@ -58,9 +58,12 @@ namespace Domotica
     {
         // Variables (components/controls)
         // Controls on GUI
+        LinearLayout linearLayout1;
         Button buttonConnect;
         Button buttonStartTimer;
-        TextView textViewServerConnect, textViewTimerStateValue;
+        TextView textViewServerConnect, textViewTimerStateValue, textViewTimerState, textViewServer,
+                 textViewIPAddress, textViewSensor, textViewTempSensor, textView1, textView2, textView3,
+                 textView4, textView5, textViewRadioBtn, textViewTime;
         public TextView textViewSensorValue, textViewTempValue;
         EditText editTextIPAddress, editTextMinutes, editTextSeconds;
         Switch switch1, switch2, switch3, switch4;
@@ -77,6 +80,9 @@ namespace Domotica
         int seconds = 0;
         int minutes = 0;
         int delay = 0;
+        int colorIndex = 0;
+        Color textColor = Color.White;
+        Color bgColor = Color.Rgb(9, 153, 204);
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -86,34 +92,45 @@ namespace Domotica
             SetContentView(Resource.Layout.Main);
 
             // find and set the controls, so it can be used in the code
+            linearLayout1 = FindViewById<LinearLayout>(Resource.Id.linearLayout1);
             buttonConnect = FindViewById<Button>(Resource.Id.buttonConnect);
             buttonStartTimer = FindViewById<Button>(Resource.Id.buttonStartTimer);
             switch1 = FindViewById<Switch>(Resource.Id.switch1);
             switch2 = FindViewById<Switch>(Resource.Id.switch2);
             switch3 = FindViewById<Switch>(Resource.Id.switch3);
             switch4 = FindViewById<Switch>(Resource.Id.switch4);
+            textViewTimerState = FindViewById<TextView>(Resource.Id.textViewTimerState);
             textViewTimerStateValue = FindViewById<TextView>(Resource.Id.textViewTimerStateValue);
+            textViewServer = FindViewById<TextView>(Resource.Id.textViewServer);
             textViewServerConnect = FindViewById<TextView>(Resource.Id.textViewServerConnect);
+            textViewSensor = FindViewById <TextView>(Resource.Id.textViewSensor);
             textViewSensorValue = FindViewById<TextView>(Resource.Id.textViewSensorValue);
+            textViewTempSensor = FindViewById<TextView>(Resource.Id.textViewTempSensor);
             textViewTempValue = FindViewById<TextView>(Resource.Id.textViewTempValue);
+            textViewIPAddress = FindViewById<TextView>(Resource.Id.textViewIPAddress);
             editTextIPAddress = FindViewById<EditText>(Resource.Id.editTextIPAddress);
             editTextMinutes = FindViewById<EditText>(Resource.Id.editTextMinutes);
             editTextSeconds = FindViewById<EditText>(Resource.Id.editTextSeconds);
+            textView1 = FindViewById<TextView>(Resource.Id.textView1);
+            textView2 = FindViewById<TextView>(Resource.Id.textView2);
+            textView3 = FindViewById<TextView>(Resource.Id.textView3);
+            textView4 = FindViewById<TextView>(Resource.Id.textView4);
+            textView5 = FindViewById<TextView>(Resource.Id.textView5);
+            textViewRadioBtn = FindViewById<TextView>(Resource.Id.textViewRadioBtn);
             radioButton1 = FindViewById<RadioButton>(Resource.Id.radioButton1);
             radioButton2 = FindViewById<RadioButton>(Resource.Id.radioButton2);
             radioButton3 = FindViewById<RadioButton>(Resource.Id.radioButton3);
             buttonAllOn = FindViewById<Button>(Resource.Id.buttonAllOn);
             buttonAllOff = FindViewById<Button>(Resource.Id.buttonAllOff);
+            textViewTime = FindViewById<TextView>(Resource.Id.textViewTime);
             buttonStartMusic = FindViewById<ImageButton>(Resource.Id.buttonStartMusic);
             buttonStopMusic = FindViewById<ImageButton>(Resource.Id.buttonStopMusic);
-
             List<Switch> switches = new List<Switch> { switch1, switch2, switch3 };
-
             UpdateConnectionState(4, "Disconnected");
 
             // Init commandlist, scheduled by socket timer
-            commandList.Add(new Tuple<string, TextView>("a", textViewSensorValue));
-            commandList.Add(new Tuple<string, TextView>("b", textViewTempValue));
+            commandList.Add(new Tuple<string, TextView>("a", textViewSensorValue)); // ask for temperature sensor value every few seconds
+            commandList.Add(new Tuple<string, TextView>("b", textViewTempValue)); // same for light sensor
 
             // activation of connector -> threaded sockets otherwise -> simple sockets 
             // connector = new Connector(this);
@@ -124,7 +141,7 @@ namespace Domotica
             timerClock = new System.Timers.Timer() { Interval = 1000, Enabled = true }; // Interval >= 1000
             timerClock.Elapsed += (obj, args) =>
             {
-                RunOnUiThread(() => { textViewTimerStateValue.Text = DateTime.Now.ToString("hh:mm:ss"); });
+                RunOnUiThread(() => { textViewTimerStateValue.Text = DateTime.Now.ToString("hh:mm:ss"); }); //view current time
             };
 
             // timer object, check Arduino state
@@ -171,49 +188,50 @@ namespace Domotica
             {
                 if (connector == null) // -> simple sockets
                     {
-                    socket.Send(Encoding.ASCII.GetBytes("1"));                 // Send toggle-command to the Arduino
+                    socket.Send(Encoding.ASCII.GetBytes("1")); // Send toggle-command to the Arduino to toggle RF-switch 1
                     }
                 else // -> threaded sockets
                     {
-                    if (connector.CheckStarted()) connector.SendMessage("1");  // Send toggle-command to the Arduino
-                    }
+                    if (connector.CheckStarted()) connector.SendMessage("1");// Same for threaded sockets
+                }
 
             };
                 switch2.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
                 {
                     if (connector == null) // -> simple sockets
                     {
-                        socket.Send(Encoding.ASCII.GetBytes("2"));                 // Send toggle-command to the Arduino
+                        socket.Send(Encoding.ASCII.GetBytes("2")); // Send toggle-command to the Arduino to toggle RF-switch 2
                     }
                     else // -> threaded sockets
                     {
-                        if (connector.CheckStarted()) connector.SendMessage("2");  // Send toggle-command to the Arduino
+                        if (connector.CheckStarted()) connector.SendMessage("2");
                     }
                 };
                 switch3.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
                 {
                     if (connector == null) // -> simple sockets
                     {
-                        socket.Send(Encoding.ASCII.GetBytes("3"));                 // Send toggle-command to the Arduino
+                        socket.Send(Encoding.ASCII.GetBytes("3")); // Send toggle-command to the Arduino to toggle RF-switch 3
                     }
                     else // -> threaded sockets
                     {
-                        if (connector.CheckStarted()) connector.SendMessage("3");  // Send toggle-command to the Arduino
+                        if (connector.CheckStarted()) connector.SendMessage("3");
                     }
                 };
             switch4.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
                 if (connector == null) // -> simple sockets
                 {
-                    socket.Send(Encoding.ASCII.GetBytes("g"));                 // Send toggle-command to the Arduino
+                    socket.Send(Encoding.ASCII.GetBytes("g")); // Send toggle-command to the Arduino to toggle GroupMode
                 }
                 else // -> threaded sockets
                 {
-                    if (connector.CheckStarted()) connector.SendMessage("g");  // Send toggle-command to the Arduino
+                    if (connector.CheckStarted()) connector.SendMessage("g"); 
                 }
             };
 
-            radioButton1.Click += RadioButtonClick;
+                // create handlers for the sleecting of every radiobutton
+                radioButton1.Click += RadioButtonClick;
                 radioButton2.Click += RadioButtonClick;
                 radioButton3.Click += RadioButtonClick;
 
@@ -223,11 +241,13 @@ namespace Domotica
                 {
                     if(s.Checked == false)
                     {
-                        s.Toggle();
+                        // toggle only the switches that are OFF so they turn ON
+                        s.Toggle(); 
                         int dwStartTime = System.Environment.TickCount;
                         while (true)
                         {
-                            if (System.Environment.TickCount - dwStartTime > 300) break; //1000 milliseconds 
+                            if (System.Environment.TickCount - dwStartTime > 300) break;
+                            // delay between sending toggle commands to Arduino to give arduino the time to process them
                         }
                     }
                 }
@@ -238,31 +258,36 @@ namespace Domotica
                 {
                     if(s.Checked == true)
                     {
-                        s.Toggle();
+                        // toggle only the switches that are ON so they turn OFF
+                        s.Toggle(); 
                         int dwStartTime = System.Environment.TickCount;
                         while (true)
                         {
-                            if (System.Environment.TickCount - dwStartTime > 300) break; //1000 milliseconds 
+                            if (System.Environment.TickCount - dwStartTime > 300) break;
+                            // delay between sending toggle commands to Arduino to give arduino the time to process them
                         }
                     }
                 }
             };
 
+
+                // add the eventHandler for the Start Timer button
                 buttonStartTimer.Click += (sender, e) =>
                 {
                     minutes = Convert.ToInt32(editTextMinutes.Text);
                     seconds = Convert.ToInt32(editTextSeconds.Text);
-                    timer(minutes, seconds);               
+                    timer(minutes, seconds); 
+                    // execute the function timer with the values the user typed in the editTexts as parameters               
                 };
             buttonStartMusic.Click += (sender,e) =>
             {
                 if (connector == null) // -> simple sockets
                 {
-                    socket.Send(Encoding.ASCII.GetBytes("m"));                 // Send toggle-command to the Arduino
+                    socket.Send(Encoding.ASCII.GetBytes("m"));  // send command to the arduino to start playing a song
                 }
                 else // -> threaded sockets
                 {
-                    if (connector.CheckStarted()) connector.SendMessage("m");  // Send toggle-command to the Arduino
+                    if (connector.CheckStarted()) connector.SendMessage("m");  // same
                 }
 
             };
@@ -270,11 +295,11 @@ namespace Domotica
             {
                 if (connector == null) // -> simple sockets
                 {
-                    socket.Send(Encoding.ASCII.GetBytes("n"));                 // Send toggle-command to the Arduino
+                    socket.Send(Encoding.ASCII.GetBytes("n")); // send command to the arduino to stop playing the song
                 }
                 else // -> threaded sockets
                 {
-                    if (connector.CheckStarted()) connector.SendMessage("n");  // Send toggle-command to the Arduino
+                    if (connector.CheckStarted()) connector.SendMessage("n");
                 }
 
             };
@@ -306,6 +331,7 @@ namespace Domotica
                 }
                 catch (Exception exception)
                 {
+                    // if the bytes could not be received or not be read
                     result = exception.ToString();
                     if (socket != null)
                     {
@@ -320,8 +346,8 @@ namespace Domotica
 
         private void RadioButtonClick(object sender, EventArgs e)
         {
-            RadioButton rb = (RadioButton)sender;
-            chosenRadioButton = Convert.ToInt32(rb.Text);
+            RadioButton rb = (RadioButton)sender; // select the radiobutton that was clicked, deselect the others
+            chosenRadioButton = Convert.ToInt32(rb.Text); // update the value of which radiobutton is selected
         }
 
         //Update connection state label (GUI).
@@ -452,6 +478,22 @@ namespace Domotica
         {
             switch (item.ItemId)
             {
+                case Resource.Id.theme:
+                    colorIndex ++;      //Goes through all the available background colors
+                    if (colorIndex == 3) { colorIndex = 0; }       
+                    switch (colorIndex)
+                    {
+                        case 0:
+                            changeColor("blue"); //sends the chosen background color to the function changecolor.
+                            break;
+                        case 1:
+                            changeColor("yellow");
+                            break;
+                        case 2:
+                            changeColor("green");
+                            break;                 
+                    }
+                    return true;
                 case Resource.Id.exit:
                     //Force quit the application.
                     System.Environment.Exit(0);
@@ -483,8 +525,10 @@ namespace Domotica
 
         public async void timer(int m, int s)
         {
-            delay = 60000 * m + 1000 * s;
+            delay = 60000 * m + 1000 * s;  // set a delay for the time the user typed
             await WaitMethod();
+
+            // toggle the switch that belongs to the chosen radiobutton.
             if (chosenRadioButton == 1) switch1.Toggle();
             else if (chosenRadioButton == 2) switch2.Toggle();
             else if (chosenRadioButton == 3) switch3.Toggle();
@@ -492,7 +536,28 @@ namespace Domotica
 
         async System.Threading.Tasks.Task WaitMethod()
         {
-            await System.Threading.Tasks.Task.Delay(delay);
+            await System.Threading.Tasks.Task.Delay(delay); // wait for the delay
+        }
+
+        public void changeColor(string col)
+        {
+            List<TextView> textViews = new List<TextView>
+            {    textViewTimerStateValue, textViewTimerState, textViewServer,
+                 textViewIPAddress, textViewSensor, textViewTempSensor, textView1, textView2, textView3,
+                 textView4, textView5, textViewRadioBtn, textViewTime, textViewSensorValue, textViewTempValue
+            };
+            List<EditText> editTexts = new List<EditText>{ editTextIPAddress, editTextMinutes, editTextSeconds };
+            List<RadioButton> radioButtons = new List<RadioButton> { radioButton1, radioButton2, radioButton3 };
+
+            if (col == "blue") { textColor = Color.White; bgColor = Color.Rgb(9, 153, 204); } 
+            else if(col == "yellow") { textColor = Color.Black; bgColor = Color.Yellow; }
+            else if (col == "green") { textColor = Color.White; bgColor = Color.DarkGreen; }
+
+            linearLayout1.SetBackgroundColor(bgColor); // changes backgroundcolor to the chosen backgroundcolor
+            foreach (TextView t in textViews) { t.SetTextColor(textColor); } //changes color of all text to chosen color
+            foreach (RadioButton r in radioButtons) { r.SetTextColor(textColor); }
+            foreach (EditText e in editTexts) { e.SetBackgroundColor(textColor); e.SetTextColor(bgColor); }
+
         }
 
         //Check if the entered port is valid.

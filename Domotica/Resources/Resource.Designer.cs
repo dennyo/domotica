@@ -48,10 +48,7 @@ namespace Domotica
 			public const int blue = 2130968576;
 			
 			// aapt resource value: 0x7f040001
-			public const int darkGrey = 2130968577;
-			
-			// aapt resource value: 0x7f040002
-			public const int white = 2130968578;
+			public const int white = 2130968577;
 			
 			static Color()
 			{
@@ -67,16 +64,13 @@ namespace Domotica
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int background = 2130837504;
+			public const int ic_media_play = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int ic_media_play = 2130837505;
+			public const int ic_media_stop = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int ic_media_stop = 2130837506;
-			
-			// aapt resource value: 0x7f020003
-			public const int Icon = 2130837507;
+			public const int Icon = 2130837506;
 			
 			static Drawable()
 			{
@@ -94,8 +88,8 @@ namespace Domotica
 			// aapt resource value: 0x7f070016
 			public const int RadioGroup = 2131165206;
 			
-			// aapt resource value: 0x7f070024
-			public const int abort = 2131165220;
+			// aapt resource value: 0x7f070025
+			public const int abort = 2131165221;
 			
 			// aapt resource value: 0x7f070013
 			public const int buttonAllOff = 2131165203;
@@ -124,8 +118,8 @@ namespace Domotica
 			// aapt resource value: 0x7f07001c
 			public const int editTextSeconds = 2131165212;
 			
-			// aapt resource value: 0x7f070023
-			public const int exit = 2131165219;
+			// aapt resource value: 0x7f070024
+			public const int exit = 2131165220;
 			
 			// aapt resource value: 0x7f070000
 			public const int linearLayout1 = 2131165184;
@@ -201,6 +195,9 @@ namespace Domotica
 			
 			// aapt resource value: 0x7f070003
 			public const int textViewTimerStateValue = 2131165187;
+			
+			// aapt resource value: 0x7f070023
+			public const int theme = 2131165219;
 			
 			static Id()
 			{
