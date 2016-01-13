@@ -95,15 +95,22 @@
             android:layout_below="@id/editTextIPAddress"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
+        <Switch
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/switchLightSensor"
+            android:checked="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/buttonConnect" />
         <TextView
             android:text="@string/sensor_value"
-            android:layout_width="200dp"
+            android:layout_width="75dp"
             android:layout_height="30dp"
             android:id="@+id/textViewSensorValue"
-            android:layout_alignParentRight="true"
             android:layout_below="@id/buttonConnect"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_toLeftOf="@id/switchLightSensor" />
         <TextView
             android:text="Temp Sensor"
             android:layout_width="150dp"
@@ -113,15 +120,22 @@
             android:layout_below="@id/textViewSensor"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
+        <Switch
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/switchTempSensor"
+            android:checked="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/switchLightSensor" />
         <TextView
             android:text="@string/temp_value"
-            android:layout_width="200dp"
+            android:layout_width="75dp"
             android:layout_height="30dp"
             android:id="@+id/textViewTempValue"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/textViewSensorValue"
+            android:layout_below="@id/switchLightSensor"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_toLeftOf="@id/switchTempSensor" />
         <TextView
             android:text="Change State 1"
             android:layout_width="150dp"
@@ -135,7 +149,7 @@
             android:layout_width="200dp"
             android:layout_height="30dp"
             android:switchMinWidth="200dp"
-            android:layout_below="@id/textViewTempValue"
+            android:layout_below="@id/switchTempSensor"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentRight="true"
             android:id="@+id/switch1" />

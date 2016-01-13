@@ -66,7 +66,7 @@ namespace Domotica
                  textView4, textView5, textViewRadioBtn, textViewTime;
         public TextView textViewSensorValue, textViewTempValue;
         EditText editTextIPAddress, editTextMinutes, editTextSeconds;
-        Switch switch1, switch2, switch3, switch4;
+        Switch switch1, switch2, switch3, switch4, switchLightSensor, switchTempSensor;
         RadioButton radioButton1, radioButton2, radioButton3;
         Button buttonAllOn, buttonAllOff;
         ImageButton buttonStartMusic, buttonStopMusic;
@@ -104,8 +104,10 @@ namespace Domotica
             textViewServer = FindViewById<TextView>(Resource.Id.textViewServer);
             textViewServerConnect = FindViewById<TextView>(Resource.Id.textViewServerConnect);
             textViewSensor = FindViewById <TextView>(Resource.Id.textViewSensor);
+            switchLightSensor = FindViewById<Switch>(Resource.Id.switchLightSensor);
             textViewSensorValue = FindViewById<TextView>(Resource.Id.textViewSensorValue);
             textViewTempSensor = FindViewById<TextView>(Resource.Id.textViewTempSensor);
+            switchTempSensor = FindViewById<Switch>(Resource.Id.switchTempSensor);
             textViewTempValue = FindViewById<TextView>(Resource.Id.textViewTempValue);
             textViewIPAddress = FindViewById<TextView>(Resource.Id.textViewIPAddress);
             editTextIPAddress = FindViewById<EditText>(Resource.Id.editTextIPAddress);
@@ -183,6 +185,30 @@ namespace Domotica
                     else UpdateConnectionState(3, "Please check IP");
                 };
             }
+            switchLightSensor.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
+            {
+                if (connector == null) // -> simple sockets
+                {
+                    socket.Send(Encoding.ASCII.GetBytes("l")); // Send toggle-command to the Arduino to toggle RF-switch 1
+                }
+                else // -> threaded sockets
+                {
+                    if (connector.CheckStarted()) connector.SendMessage("l");// Same for threaded sockets
+                }
+
+            };
+            switchTempSensor.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
+            {
+                if (connector == null) // -> simple sockets
+                {
+                    socket.Send(Encoding.ASCII.GetBytes("t")); // Send toggle-command to the Arduino to toggle RF-switch 1
+                }
+                else // -> threaded sockets
+                {
+                    if (connector.CheckStarted()) connector.SendMessage("t");// Same for threaded sockets
+                }
+
+            };
 
             switch1.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
@@ -480,7 +506,7 @@ namespace Domotica
             {
                 case Resource.Id.theme:
                     colorIndex ++;      //Goes through all the available background colors
-                    if (colorIndex == 3) { colorIndex = 0; }       
+                    if (colorIndex == 4) { colorIndex = 0; }       
                     switch (colorIndex)
                     {
                         case 0:
@@ -491,6 +517,9 @@ namespace Domotica
                             break;
                         case 2:
                             changeColor("green");
+                            break;
+                        case 3:
+                            changeColor("orange");
                             break;                 
                     }
                     return true;
@@ -549,9 +578,10 @@ namespace Domotica
             List<EditText> editTexts = new List<EditText>{ editTextIPAddress, editTextMinutes, editTextSeconds };
             List<RadioButton> radioButtons = new List<RadioButton> { radioButton1, radioButton2, radioButton3 };
 
-            if (col == "blue") { textColor = Color.White; bgColor = Color.Rgb(9, 153, 204); } 
-            else if(col == "yellow") { textColor = Color.Black; bgColor = Color.Yellow; }
+            if (col == "blue") { textColor = Color.White; bgColor = Color.Rgb(9, 153, 204); }
+            else if (col == "yellow") { textColor = Color.Black; bgColor = Color.Yellow; }
             else if (col == "green") { textColor = Color.White; bgColor = Color.DarkGreen; }
+            else if (col == "orange") { textColor = Color.Black; bgColor = Color.DarkOrange; }
 
             linearLayout1.SetBackgroundColor(bgColor); // changes backgroundcolor to the chosen backgroundcolor
             foreach (TextView t in textViews) { t.SetTextColor(textColor); } //changes color of all text to chosen color
