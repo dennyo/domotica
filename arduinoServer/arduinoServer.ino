@@ -237,6 +237,12 @@ void executeCommand(char cmd)
             server.write(buf, 4);                                  // response is always 4 chars (\n included)
             Serial.print("Sensor: "); Serial.println(buf);
             }
+            else if (!lightSensor)
+            {
+              buf[0] = '-';
+              server.write(buf,4);
+              Serial.print("Sensor: "); Serial.println(buf);
+            }
             break;
          case 'b': // Report sensor temp value to the app  
             if(tempSensor)
@@ -244,6 +250,12 @@ void executeCommand(char cmd)
             intToCharBuf(sensorTempValue, buf, 4);                // convert to charbuffer
             server.write(buf, 4);                                 // response is always 4 chars (\n included)
             Serial.print("Sensor: "); Serial.println(buf);
+            }
+            else if (!tempSensor)
+            {
+              buf[0] = '-';
+              server.write(buf,4);
+              Serial.print("Sensor: "); Serial.println(buf);
             }
             break;
          case '1': // Toggle state of Switch 1; If state is already ON then turn it OFF
