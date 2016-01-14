@@ -87,17 +87,17 @@ void setup()
    //Try to get an IP address from the DHCP server.
    if (Ethernet.begin(mac) == 0)
    {
-      Serial.println("Could not obtain IP-address from DHCP -> do nothing");
+      Serial.println("Could not obtain IP-address");
       while (true){     // no point in carrying on, so do nothing forevermore; check your router
       }
    }
 
-   Serial.println("Domotica project, Arduino server");
-   Serial.print("RF-transmitter (click-on click-off Device) on pin "); Serial.println(RFPin);
-   Serial.print("LED (for connect-state and pin-state) on pin "); Serial.println(ledPin);
-   Serial.print("Input switch on pin "); Serial.println(switchPin);
-   Serial.println("Ethernetboard connected (pins 10, 11, 12, 13 and SPI)");
-   Serial.println("Connect to DHCP source in local network (blinking led -> waiting for connection)");
+//   Serial.println("Domotica project, Arduino server");
+//   Serial.print("RF-transmitter (click-on click-off Device) on pin "); Serial.println(RFPin);
+//   Serial.print("LED (for connect-state and pin-state) on pin "); Serial.println(ledPin);
+//   Serial.print("Input switch on pin "); Serial.println(switchPin);
+//   Serial.println("Ethernetboard connected (pins 10, 11, 12, 13 and SPI)");
+//   Serial.println("Connect to DHCP source in local network (blinking led -> waiting for connection)");
    
    //Start the ethernet server.
    server.begin();
@@ -111,7 +111,7 @@ void setup()
    if (getIPClassB(Ethernet.localIP()) == 1) offset = 100;             // router S. Oosterhaven
    int IPnr = getIPComputerNumberOffset(Ethernet.localIP(), offset);   // Get computernumber in local network 192.168.1.105 -> 5)
    Serial.print(" ["); Serial.print(IPnr); Serial.print("] "); 
-   Serial.print("  [Testcase: telnet "); Serial.print(Ethernet.localIP()); Serial.print(" "); Serial.print(ethPort); Serial.println("]");
+//   Serial.print("  [Testcase: telnet "); Serial.print(Ethernet.localIP()); Serial.print(" "); Serial.print(ethPort); Serial.println("]");
    signalNumber(ledPin, IPnr);
 }
 
@@ -168,13 +168,13 @@ void loop()
       {    
         if(!isSwitchOn && isDS1 == false)
         {
-          Serial.println("transmitting on signal to switch");
+          Serial.println("Turn switch ON");
           mySwitch.send(9321647, 24);           // if "stopcontact is not on change to on
           isSwitchOn = true;
         }
         if(isSwitchOn && isDS1 == true) 
         {
-          Serial.println("transmitting off signal to switch");
+          Serial.println("Turn switch OFF");
           mySwitch.send(9321646, 24);           // if "stopcontact is on change to not on
           isSwitchOn = false;
         }
@@ -184,7 +184,7 @@ void loop()
       {
         if(isSwitchOn && isDS1 == false)
         {
-          Serial.println("transmitting off signal to switch");
+          Serial.println("Turn switch OFF");
           mySwitch.send(9321646, 24);             // if "stopcontact is on change to not on
           isSwitchOn = false;
         }
@@ -216,7 +216,7 @@ void loop()
     } 
   }  
   delay(1000);
-  Serial.println("Application disonnected");
+  Serial.println("App disconnected");
 }
 
 
@@ -250,51 +250,51 @@ void executeCommand(char cmd)
          case '1': // Toggle state of Switch 1; If state is already ON then turn it OFF
             if (pinState1) 
             { 
-              isSwitchOn = false; pinState1 = false; Serial.println("Set pin 1 state to \"OFF\"");
+              isSwitchOn = false; pinState1 = false; Serial.println("Pin 1 state OFF");
               if(groupmode == true){ isDS1=false;}
             }
             else 
             { 
-              isSwitchOn = true; pinState1 = true; Serial.println("Set pin 1 state to \"ON\"");
+              isSwitchOn = true; pinState1 = true; Serial.println("Pin 1 state ON");
               if(groupmode == true) { isDS1=true;}
             }  
             pinChange = true; 
             activeSwitch = 1;
             break;
          case '2': // Switch 2
-            if (pinState2) { pinState2 = false; Serial.println("Set pin 2 state to \"OFF\""); }
-            else { pinState2 = true; Serial.println("Set pin 2 state to \"ON\""); }  
+            if (pinState2) { pinState2 = false; Serial.println("Pin 2 state OFF"); }
+            else { pinState2 = true; Serial.println("Pin 2 state ON"); }  
             pinChange = true; 
             activeSwitch = 2;
             break;
          case '3': // Switch 3
-            if (pinState3) { pinState3 = false; Serial.println("Set pin 3 state to \"OFF\""); }
-            else { pinState3 = true; Serial.println("Set pin 3 state to \"ON\""); }  
+            if (pinState3) { pinState3 = false; Serial.println("Pin 3 state OFF"); }
+            else { pinState3 = true; Serial.println("Pin 3 state ON"); }  
             pinChange = true; 
             activeSwitch = 3;
             break;
          case 'l':
-            if(lightSensor) { lightSensor = false; Serial.println("Turn light sensor off"); }
-            else { lightSensor = true; Serial.println("Turn light sensor on"); }
+            if(lightSensor) { lightSensor = false; Serial.println("Lightsensor off"); }
+            else { lightSensor = true; Serial.println("Lightsensor on"); }
             break;
          case 't':
-            if(tempSensor) { tempSensor = false; Serial.println("Turn temp sensor off"); }
-            else { tempSensor = true; Serial.println("Turn temp sensor on"); }
+            if(tempSensor) { tempSensor = false; Serial.println("Tempsensor off"); }
+            else { tempSensor = true; Serial.println("Tempsensor on"); }
             break;
          case 'i':    
             digitalWrite(infoPin, HIGH);
             break;\
          case 'g':
-            if (groupmode==true) { groupmode = false; Serial.println("Set Groupmode \"OFF\""); }
-            else { groupmode = true; Serial.println("Set Groupmode \"ON\""); }  
+            if (groupmode==true) { groupmode = false; Serial.println("Groupmode OFF"); }
+            else { groupmode = true; Serial.println("Groupmode ON"); }  
             break;
          case 'm':
             playMusic = true;
-            Serial.println("Start Playing Jingle Bells");
+            Serial.println("Start music");
             break;
          case 'n':
             playMusic = false;
-            Serial.println("Stop Playing Jingle Bells");
+            Serial.println("Stop music");
             break;
            default:
            digitalWrite(infoPin, LOW);
