@@ -30,8 +30,8 @@ int ethPort = 3300;                                  // Take a free port (check 
 #define switchPin    7  // input, connected to some kind of inputswitch
 #define ledPin       8  // output, led used for "connect state": blinking = searching; continuously = connected
 #define infoPin      9  // output, more information
-#define analogPin    0  // sensor light value
-#define analogPin    1  // sensor temp value
+#define analogPin    4  // sensor light value
+#define analogPin    3  // sensor temp value
 
 EthernetServer server(ethPort);              // EthernetServer instance (listening on port <ethPort>).
 bool pinState1 = false;                   // Stores pinstate of switcht 1
@@ -132,8 +132,9 @@ void loop()
       checkEvent(switchPin, pinState1);
       checkEvent(switchPin, pinState2);
       checkEvent(switchPin, pinState3);
-      if(lightSensor){ sensorLightValue = readSensor(0, 100); }
-      if(tempSensor) {int val=analogRead(1); sensorTempValue=((1024 - val) /27.3); }
+      if(lightSensor){ sensorLightValue = readSensor(4,100); }
+      delay(100);
+      if(tempSensor) {int val=analogRead(3); sensorTempValue=((1023 - val) /27.3); }
         
       // Activate pin based op pinState
       if (pinChange) {
