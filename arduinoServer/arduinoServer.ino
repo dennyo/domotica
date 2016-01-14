@@ -43,7 +43,7 @@ int sensorTempValue = 0;                  // Variable to store actual sensor tem
 RCSwitch mySwitch = RCSwitch();           // declaratie van mySwitch
 int activeSwitch = 0;                     // Stores which "stopcontact" to change
 bool groupmode = false;                   // Stores if groupmode is active or inactive                  
-int thresholdValue = 80;                  // Tresholdvalue lightsensor (groupassignment)
+byte thresholdValue = 80;                  // Tresholdvalue lightsensor (groupassignment)
 bool isSwitchOn = false;                  // Checks if switch is on (groupassignment)
 bool isDS1 = false;                       // When first in groupassignment
 bool playMusic = false;                   // Checks if switch for music is on
@@ -103,7 +103,7 @@ void setup()
    server.begin();
 
    // Print IP -                    address and led indication of server state
-   Serial.print("Listening address: ");
+   Serial.print("IP address: ");
    Serial.print(Ethernet.localIP());
    
    // for hardware debug: LED indication of server state: blinking = waiting for connection
@@ -133,7 +133,7 @@ void loop()
       checkEvent(switchPin, pinState2);
       checkEvent(switchPin, pinState3);
       if(lightSensor){ sensorLightValue = readSensor(0, 100); }
-      if(tempSensor) {float val=analogRead(1); sensorTempValue=((1024 - val) /27.3); }
+      if(tempSensor) {int val=analogRead(1); sensorTempValue=((1024 - val) /27.3); }
         
       // Activate pin based op pinState
       if (pinChange) {
@@ -194,7 +194,6 @@ void loop()
 
     if(playMusic)         // if switch music is on
     {
-      thisNote++;         // Counts a new note
       if(thisNote >= 49)  // if thisNote is higher then the last note, reset.
       {
         thisNote = 0;
@@ -295,6 +294,7 @@ void executeCommand(char cmd)
          case 'n':
             playMusic = false;
             Serial.println("Stop music");
+            thisNote = 0;
             break;
            default:
            digitalWrite(infoPin, LOW);
@@ -390,7 +390,11 @@ int getIPComputerNumberOffset(IPAddress address, int offset)
 
 void play() 
 {
-    tone(7, melody[thisNote],(1000/noteDurations[thisNote]));  // pin, which melody note, which duration of the note
-    delay((1000/noteDurations[thisNote])*1.30);
+    int noteDuration = 1000/noteDurations[thisNote];
+    tone(7, melody[thisNote],noteDuration);  // pin, which melody note, which duration of the note
+    int pause = noteDuration*1.30;
+    delay(pause);       //wait until the note is finished
+    noTone(7);
+    thisNote++;         // Counts a new note
 }
 
