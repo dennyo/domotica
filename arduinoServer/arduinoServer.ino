@@ -211,9 +211,9 @@ void loop()
     
       else                // else note continues
       { 
-        if(maxNotes == 42)
+        if(maxNotes == 49)
         { play( melody, noteDurations );}
-        else if(maxNotes == 49)
+        else if(maxNotes == 42)
         { play( melody2, noteDurations2 ); }
       }
     }
