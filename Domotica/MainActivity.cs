@@ -172,19 +172,8 @@ namespace Domotica
                     //Validate the user input (IP address and port)
                     if (CheckValidIpAddress(ip) && CheckValidPort("3300"))
                     {
-                        if (connector == null) // -> simple sockets
-                        {
-                            ConnectSocket(ip, "3300");
-                        }
-                        else // -> threaded sockets
-                        {
-                            //Stop the thread If the Connector thread is already started.
-                            if (connector.CheckStarted())
-                            {
-                                connector.StopConnector();
-                                connector.StartConnector(ip, "3300");
-                            }
-                        }
+
+                        ConnectSocket(ip, "3300"); //simple sockets
                         autoConnected = true;
                         editTextIPAddress.Text = ip;
                     }
@@ -200,89 +189,39 @@ namespace Domotica
                     //Validate the user input (IP address and port)
                     if (CheckValidIpAddress(editTextIPAddress.Text) && CheckValidPort("3300"))
                     {
-                        if (connector == null) // -> simple sockets
-                        {
                             ConnectSocket(editTextIPAddress.Text, "3300");
-                        }
-                        else // -> threaded sockets
-                        {
-                            //Stop the thread If the Connector thread is already started.
-                            if (connector.CheckStarted()) connector.StopConnector();
-                            connector.StartConnector(editTextIPAddress.Text, "3300");
-                        }
                     }
                     else UpdateConnectionState(3, "Please check IP");
                 };
             }
             switchLightSensor.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
-                if (connector == null) // -> simple sockets
-                {
-                    socket.Send(Encoding.ASCII.GetBytes("l")); // Send toggle-command to the Arduino to toggle RF-switch 1
-                }
-                else // -> threaded sockets
-                {
-                    if (connector.CheckStarted()) connector.SendMessage("l");// Same for threaded sockets
-                }
-
+                socket.Send(Encoding.ASCII.GetBytes("l")); // Send toggle-command to the Arduino to toggle RF-switch 1
             };
+
             switchTempSensor.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
-                if (connector == null) // -> simple sockets
-                {
-                    socket.Send(Encoding.ASCII.GetBytes("t")); // Send toggle-command to the Arduino to toggle RF-switch 1
-                }
-                else // -> threaded sockets
-                {
-                    if (connector.CheckStarted()) connector.SendMessage("t");// Same for threaded sockets
-                }
-
+                socket.Send(Encoding.ASCII.GetBytes("t")); // Send toggle-command to the Arduino to toggle RF-switch 1
             };
 
             switch1.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
-                if (connector == null) // -> simple sockets
-                    {
-                    socket.Send(Encoding.ASCII.GetBytes("1")); // Send toggle-command to the Arduino to toggle RF-switch 1
-                    }
-                else // -> threaded sockets
-                    {
-                    if (connector.CheckStarted()) connector.SendMessage("1");// Same for threaded sockets
-                }
-
+                socket.Send(Encoding.ASCII.GetBytes("1")); // Send toggle-command to the Arduino to toggle RF-switch 1
             };
-                switch2.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
-                {
-                    if (connector == null) // -> simple sockets
-                    {
-                        socket.Send(Encoding.ASCII.GetBytes("2")); // Send toggle-command to the Arduino to toggle RF-switch 2
-                    }
-                    else // -> threaded sockets
-                    {
-                        if (connector.CheckStarted()) connector.SendMessage("2");
-                    }
-                };
-                switch3.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
-                {
-                    if (connector == null) // -> simple sockets
-                    {
-                        socket.Send(Encoding.ASCII.GetBytes("3")); // Send toggle-command to the Arduino to toggle RF-switch 3
-                    }
-                    else // -> threaded sockets
-                    {
-                        if (connector.CheckStarted()) connector.SendMessage("3");
-                    }
-                };
+
+            switch2.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
+            {
+                socket.Send(Encoding.ASCII.GetBytes("2")); // Send toggle-command to the Arduino to toggle RF-switch 2
+            };
+
+            switch3.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
+            {
+                socket.Send(Encoding.ASCII.GetBytes("3")); // Send toggle-command to the Arduino to toggle RF-switch 3
+            };
+
             switch4.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
-                if (connector == null) // -> simple sockets
-                {
-                    socket.Send(Encoding.ASCII.GetBytes("g")); // Send toggle-command to the Arduino to toggle GroupMode
-                }
-                else // -> threaded sockets
-                {
-                    if (connector.CheckStarted()) connector.SendMessage("g"); 
-                }
+                socket.Send(Encoding.ASCII.GetBytes("g")); // Send toggle-command to the Arduino to toggle GroupMode
             };
 
                 // create handlers for the sleecting of every radiobutton
@@ -336,27 +275,12 @@ namespace Domotica
                 };
             buttonStartMusic.Click += (sender,e) =>
             {
-                if (connector == null) // -> simple sockets
-                {
-                    socket.Send(Encoding.ASCII.GetBytes("m"));  // send command to the arduino to start playing a song
-                }
-                else // -> threaded sockets
-                {
-                    if (connector.CheckStarted()) connector.SendMessage("m");  // same
-                }
-
+                socket.Send(Encoding.ASCII.GetBytes("m"));  // send command to the arduino to start playing a song
             };
+
             buttonStopMusic.Click += (sender, e) =>
             {
-                if (connector == null) // -> simple sockets
-                {
-                    socket.Send(Encoding.ASCII.GetBytes("n")); // send command to the arduino to stop playing the song
-                }
-                else // -> threaded sockets
-                {
-                    if (connector.CheckStarted()) connector.SendMessage("n");
-                }
-
+                socket.Send(Encoding.ASCII.GetBytes("n")); // send command to the arduino to stop playing the song
             };
 
         }
