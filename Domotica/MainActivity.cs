@@ -63,13 +63,13 @@ namespace Domotica
         Button buttonStartTimer;
         TextView textViewServerConnect, textViewTimerStateValue, textViewTimerState, textViewServer,
                  textViewIPAddress, textViewSensor, textViewTempSensor, textView1, textView2, textView3,
-                 textView4, textView5, textViewRadioBtn, textViewTime;
+                 textView4, textView5, textView6, textViewRadioBtn, textViewTime;
         public TextView textViewSensorValue, textViewTempValue;
         EditText editTextIPAddress, editTextMinutes, editTextSeconds;
         Switch switch1, switch2, switch3, switch4, switchLightSensor, switchTempSensor;
         RadioButton radioButton1, radioButton2, radioButton3;
         Button buttonAllOn, buttonAllOff;
-        ImageButton buttonStartMusic, buttonStopMusic;
+        ImageButton buttonStartMusic, buttonStartMusic2, buttonStopMusic, buttonStopMusic2;
 
         Timer timerClock, timerSockets;             // Timers   
         Socket socket = null;                       // Socket   
@@ -119,6 +119,7 @@ namespace Domotica
             textView3 = FindViewById<TextView>(Resource.Id.textView3);
             textView4 = FindViewById<TextView>(Resource.Id.textView4);
             textView5 = FindViewById<TextView>(Resource.Id.textView5);
+            textView6 = FindViewById<TextView>(Resource.Id.textView6);
             textViewRadioBtn = FindViewById<TextView>(Resource.Id.textViewRadioBtn);
             radioButton1 = FindViewById<RadioButton>(Resource.Id.radioButton1);
             radioButton2 = FindViewById<RadioButton>(Resource.Id.radioButton2);
@@ -128,6 +129,8 @@ namespace Domotica
             textViewTime = FindViewById<TextView>(Resource.Id.textViewTime);
             buttonStartMusic = FindViewById<ImageButton>(Resource.Id.buttonStartMusic);
             buttonStopMusic = FindViewById<ImageButton>(Resource.Id.buttonStopMusic);
+            buttonStartMusic2 = FindViewById<ImageButton>(Resource.Id.buttonStartMusic2);
+            buttonStopMusic2 = FindViewById<ImageButton>(Resource.Id.buttonStopMusic2);
             List<Switch> switches = new List<Switch> { switch1, switch2, switch3 };
             UpdateConnectionState(4, "Disconnected");
 
@@ -273,6 +276,7 @@ namespace Domotica
                     timer(minutes, seconds); 
                     // execute the function timer with the values the user typed in the editTexts as parameters               
                 };
+
             buttonStartMusic.Click += (sender,e) =>
             {
                 socket.Send(Encoding.ASCII.GetBytes("m"));  // send command to the arduino to start playing a song
@@ -281,6 +285,16 @@ namespace Domotica
             buttonStopMusic.Click += (sender, e) =>
             {
                 socket.Send(Encoding.ASCII.GetBytes("n")); // send command to the arduino to stop playing the song
+            };
+
+            buttonStartMusic2.Click += (sender, e) =>
+            {
+                socket.Send(Encoding.ASCII.GetBytes("o"));  // send command to the arduino to start playing a song
+            };
+
+            buttonStopMusic2.Click += (sender, e) =>
+            {
+                socket.Send(Encoding.ASCII.GetBytes("p")); // send command to the arduino to stop playing the song
             };
 
         }

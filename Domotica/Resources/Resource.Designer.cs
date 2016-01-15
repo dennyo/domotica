@@ -88,8 +88,8 @@ namespace Domotica
 			// aapt resource value: 0x7f070018
 			public const int RadioGroup = 2131165208;
 			
-			// aapt resource value: 0x7f070027
-			public const int abort = 2131165223;
+			// aapt resource value: 0x7f07002a
+			public const int abort = 2131165226;
 			
 			// aapt resource value: 0x7f070015
 			public const int buttonAllOff = 2131165205;
@@ -103,11 +103,17 @@ namespace Domotica
 			// aapt resource value: 0x7f070023
 			public const int buttonStartMusic = 2131165219;
 			
+			// aapt resource value: 0x7f070026
+			public const int buttonStartMusic2 = 2131165222;
+			
 			// aapt resource value: 0x7f07001d
 			public const int buttonStartTimer = 2131165213;
 			
 			// aapt resource value: 0x7f070024
 			public const int buttonStopMusic = 2131165220;
+			
+			// aapt resource value: 0x7f070027
+			public const int buttonStopMusic2 = 2131165223;
 			
 			// aapt resource value: 0x7f070007
 			public const int editTextIPAddress = 2131165191;
@@ -118,8 +124,8 @@ namespace Domotica
 			// aapt resource value: 0x7f07001e
 			public const int editTextSeconds = 2131165214;
 			
-			// aapt resource value: 0x7f070026
-			public const int exit = 2131165222;
+			// aapt resource value: 0x7f070029
+			public const int exit = 2131165225;
 			
 			// aapt resource value: 0x7f070000
 			public const int linearLayout1 = 2131165184;
@@ -169,6 +175,9 @@ namespace Domotica
 			// aapt resource value: 0x7f070022
 			public const int textView5 = 2131165218;
 			
+			// aapt resource value: 0x7f070025
+			public const int textView6 = 2131165221;
+			
 			// aapt resource value: 0x7f070006
 			public const int textViewIPAddress = 2131165190;
 			
@@ -202,8 +211,8 @@ namespace Domotica
 			// aapt resource value: 0x7f070003
 			public const int textViewTimerStateValue = 2131165187;
 			
-			// aapt resource value: 0x7f070025
-			public const int theme = 2131165221;
+			// aapt resource value: 0x7f070028
+			public const int theme = 2131165224;
 			
 			static Id()
 			{

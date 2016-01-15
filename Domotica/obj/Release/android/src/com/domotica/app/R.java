@@ -21,17 +21,19 @@ public final class R {
     }
     public static final class id {
         public static final int RadioGroup=0x7f070018;
-        public static final int abort=0x7f070027;
+        public static final int abort=0x7f07002a;
         public static final int buttonAllOff=0x7f070015;
         public static final int buttonAllOn=0x7f070016;
         public static final int buttonConnect=0x7f070008;
         public static final int buttonStartMusic=0x7f070023;
+        public static final int buttonStartMusic2=0x7f070026;
         public static final int buttonStartTimer=0x7f07001d;
         public static final int buttonStopMusic=0x7f070024;
+        public static final int buttonStopMusic2=0x7f070027;
         public static final int editTextIPAddress=0x7f070007;
         public static final int editTextMinutes=0x7f07001f;
         public static final int editTextSeconds=0x7f07001e;
-        public static final int exit=0x7f070026;
+        public static final int exit=0x7f070029;
         public static final int linearLayout1=0x7f070000;
         public static final int radioButton1=0x7f070019;
         public static final int radioButton2=0x7f07001a;
@@ -48,6 +50,7 @@ public final class R {
         public static final int textView3=0x7f070013;
         public static final int textView4=0x7f070020;
         public static final int textView5=0x7f070022;
+        public static final int textView6=0x7f070025;
         public static final int textViewIPAddress=0x7f070006;
         public static final int textViewRadioBtn=0x7f070017;
         public static final int textViewSensor=0x7f070009;
@@ -59,7 +62,7 @@ public final class R {
         public static final int textViewTime=0x7f07001c;
         public static final int textViewTimerState=0x7f070002;
         public static final int textViewTimerStateValue=0x7f070003;
-        public static final int theme=0x7f070025;
+        public static final int theme=0x7f070028;
     }
     public static final class layout {
         public static final int main=0x7f030000;
