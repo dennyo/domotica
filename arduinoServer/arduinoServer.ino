@@ -49,18 +49,27 @@ bool isDS1 = false;                       // When first in groupassignment
 bool playMusic = false;                   // Checks if switch for music is on
 bool lightSensor = true;                  // Stores the state of the light sensor(on/off)
 bool tempSensor = true;                   // Stores the state of the temp sensor(on/off)
+int BPM = 120;                            // The speed of the song
 int thisNote = 0;                         // Stores how far the song is
+int maxNotes = 0;                         // Stores how many notes are in the chosen song
 int melody[] = {                          // The hight of the tone
 1319,    1319,    1319,    1319,    1319,    1319,    1319,    1568,    1047,    1175,
 1319,    1397,    1397,    1397,    1397,    1397,    1319,    1319,    1319,    1319,
 1175,    1175,    1319,    1175,    1568,    1319,    1319,    1319,    1319,    1319,
 1319,    1319,    1568,    1047,    1175,    1319,    1397,    1397,    1397,    1397,
 1397,    1319,    1319,    1319,    1568,    1568,    1319,    1175,    1047};
-int noteDurations[] = {                   // note durations: 4 = quarter note, 8 = eighth note, etc. (duration of eacht tone):
-  4, 4, 2, 4, 4, 2, 4, 4, 4, 4, 1, 4, 
-  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 
-  2, 4, 4, 2, 4, 4, 2, 4, 4, 4, 4, 1, 
-  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1};
+int noteDurations[] = {                   // note durations: 4 = quarter note, 8 = eighth note, etc. (duration of each tone):
+4, 4, 2, 4, 4, 2, 4, 4, 4, 4, 1, 4, 
+4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 
+2, 4, 4, 2, 4, 4, 2, 4, 4, 4, 4, 1, 
+4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1};
+int melody2 [] = {
+220, 220, 220, 175, 262, 220, 175, 262, 220, 330, 330, 330, 349, 262,
+208, 175, 262, 220, 440, 220, 220, 440, 415, 392, 370, 330, 349, 233,
+311, 294, 277, 262, 247, 262, 175, 208, 175, 262, 220, 175, 262, 220};
+int noteDurations2 [] = {
+4,4,4,5,16,4,5,16,2,4,4,4,5,16,4,5,16,2,4,5,16,4,
+5,16,16,16,8,8,4,5,16,16,16,8,8,4,5,16,4,5,16,2};
 
 void setup()
 { 
@@ -103,7 +112,7 @@ void setup()
    server.begin();
 
    // Print IP -                    address and led indication of server state
-   Serial.print("IP address: ");
+   Serial.println("IP address: ");
    Serial.print(Ethernet.localIP());
    
    // for hardware debug: LED indication of server state: blinking = waiting for connection
@@ -192,10 +201,9 @@ void loop()
       }
       delay(1000);
     }
-
     if(playMusic)         // if switch music is on
     {
-      if(thisNote >= 49)  // if thisNote is higher then the last note, reset.
+      if(thisNote >= maxNotes)  // if thisNote is higher then the last note, reset.
       {
         thisNote = 0;
         playMusic=false;
@@ -203,7 +211,10 @@ void loop()
     
       else                // else note continues
       { 
-        play();
+        if(maxNotes == 42)
+        { play( melody, noteDurations );}
+        else if(maxNotes == 49)
+        { play( melody2, noteDurations2 ); }
       }
     }
    
@@ -231,34 +242,6 @@ void executeCommand(char cmd)
          // Command protocol
          Serial.print("["); Serial.print(cmd); Serial.print("] -> ");
          switch (cmd) {
-         case 'a': // Report sensor light value to the app  
-            if(lightSensor)
-            {
-            intToCharBuf(sensorLightValue, buf, 4);                // convert to charbuffer
-            server.write(buf, 4);                                  // response is always 4 chars (\n included)
-            Serial.print("Sensor: "); Serial.println(buf);
-            }
-            else if (!lightSensor)
-            {
-              buf[0] = '-';
-              server.write(buf,4);
-              Serial.print("Sensor: "); Serial.println(buf);
-            }
-            break;
-         case 'b': // Report sensor temp value to the app  
-            if(tempSensor)
-            {
-            intToCharBuf(sensorTempValue, buf, 4);                // convert to charbuffer
-            server.write(buf, 4);                                 // response is always 4 chars (\n included)
-            Serial.print("Sensor: "); Serial.println(buf);
-            }
-            else if (!tempSensor)
-            {
-              buf[0] = '-';
-              server.write(buf,4);
-              Serial.print("Sensor: "); Serial.println(buf);
-            }
-            break;
          case '1': // Toggle state of Switch 1; If state is already ON then turn it OFF
             if (pinState1) 
             { 
@@ -285,29 +268,68 @@ void executeCommand(char cmd)
             pinChange = true; 
             activeSwitch = 3;
             break;
-         case 'l':
-            if(lightSensor) { lightSensor = false; Serial.println("Lightsensor off"); }
-            else { lightSensor = true; Serial.println("Lightsensor on"); }
+         case 'a': // Report sensor light value to the app  
+            if(lightSensor)
+            {
+            intToCharBuf(sensorLightValue, buf, 4);                // convert to charbuffer
+            server.write(buf, 4);                                  // response is always 4 chars (\n included)           
+            }
+            else if(!lightSensor) 
+            {
+              buf[0] = '-';
+              server.write(buf,4);
+            }
+            Serial.print("Sensor: "); Serial.println(buf);
             break;
-         case 't':
-            if(tempSensor) { tempSensor = false; Serial.println("Tempsensor off"); }
-            else { tempSensor = true; Serial.println("Tempsensor on"); }
+         case 'b': // Report sensor temp value to the app  
+            if(tempSensor)
+            {
+            intToCharBuf(sensorTempValue, buf, 4);                // convert to charbuffer
+            server.write(buf, 4);                                 // response is always 4 chars (\n included)
+            }
+            else if(!tempSensor) 
+            {
+              buf[0] = '-';
+              server.write(buf,4);
+            }     
+            Serial.print("Sensor: "); Serial.println(buf);
             break;
-         case 'i':    
-            digitalWrite(infoPin, HIGH);
-            break;\
          case 'g':
             if (groupmode==true) { groupmode = false; Serial.println("Groupmode OFF"); }
             else { groupmode = true; Serial.println("Groupmode ON"); }  
             break;
+         case 'i':    
+            digitalWrite(infoPin, HIGH);
+            break;
+         case 'l':
+            if(lightSensor) { lightSensor = false; Serial.println("Lightsensor off"); }
+            else { lightSensor = true; Serial.println("Lightsensor on"); }
+            break;
          case 'm':
             playMusic = true;
             Serial.println("Start music");
+            maxNotes = 49;            
+            thisNote = 0;
             break;
          case 'n':
             playMusic = false;
             Serial.println("Stop music");
             thisNote = 0;
+            break;
+         case 'o':
+            playMusic = true;
+            Serial.println("Start music");
+            thisNote = 0;
+            maxNotes = 42;
+            break;
+         case 'p':
+            playMusic = false;
+            Serial.println("Stop music");
+            thisNote = 0;
+            break;
+         case 't':
+            if(tempSensor) { tempSensor = false; Serial.println("Tempsensor off"); }
+            else { tempSensor = true; Serial.println("Tempsensor on"); }
             break;
            default:
            digitalWrite(infoPin, LOW);
@@ -401,13 +423,14 @@ int getIPComputerNumberOffset(IPAddress address, int offset)
     return getIPComputerNumber(address) - offset;
 }
 
-void play() 
+void play(int notes[], int durations[]) 
 {
-    int noteDuration = 1000/noteDurations[thisNote];
-    tone(7, melody[thisNote],noteDuration);  // pin, which melody note, which duration of the note
+    int noteDuration = (1000*(60*4/BPM)) / durations[thisNote];
+    tone(7, notes[thisNote],noteDuration);  // pin, which melody note, which duration of the note
     int pause = noteDuration*1.30;
     delay(pause);       //wait until the note is finished
     noTone(7);
     thisNote++;         // Counts a new note
 }
+
 
