@@ -163,6 +163,29 @@ namespace Domotica
                 //});
             };
 
+            for (int i = 100; i < 102; i++)
+            {
+                string ip = "192.168.1." + Convert.ToString(i);
+                //Validate the user input (IP address and port)
+                if (CheckValidIpAddress(ip) && CheckValidPort("3300"))
+                {
+                    if (connector == null) // -> simple sockets
+                    {
+                        ConnectSocket(ip, "3300");
+                    }
+                    else // -> threaded sockets
+                    {
+                        //Stop the thread If the Connector thread is already started.
+                        if (connector.CheckStarted())
+                        {
+                            connector.StopConnector();
+                            connector.StartConnector(ip, "3300");
+                        }
+                    }
+                }
+                else UpdateConnectionState(3, "Please check IP");
+            }
+
             //Add the "Connect" button handler.
             if (buttonConnect != null)  // if button exists
             {
