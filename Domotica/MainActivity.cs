@@ -81,6 +81,7 @@ namespace Domotica
         int minutes = 0;
         int delay = 0;
         int colorIndex = 0;
+        bool autoConnected = false;
         Color textColor = Color.White;
         Color bgColor = Color.Rgb(9, 153, 204);
 
@@ -163,27 +164,32 @@ namespace Domotica
                 //});
             };
 
-            for (int i = 100; i < 102; i++)
+            if (!autoConnected)
             {
-                string ip = "192.168.1." + Convert.ToString(i);
-                //Validate the user input (IP address and port)
-                if (CheckValidIpAddress(ip) && CheckValidPort("3300"))
+                for (int i = 100; i < 102; i++)
                 {
-                    if (connector == null) // -> simple sockets
+                    string ip = "192.168.1." + Convert.ToString(i);
+                    //Validate the user input (IP address and port)
+                    if (CheckValidIpAddress(ip) && CheckValidPort("3300"))
                     {
-                        ConnectSocket(ip, "3300");
-                    }
-                    else // -> threaded sockets
-                    {
-                        //Stop the thread If the Connector thread is already started.
-                        if (connector.CheckStarted())
+                        if (connector == null) // -> simple sockets
                         {
-                            connector.StopConnector();
-                            connector.StartConnector(ip, "3300");
+                            ConnectSocket(ip, "3300");
                         }
+                        else // -> threaded sockets
+                        {
+                            //Stop the thread If the Connector thread is already started.
+                            if (connector.CheckStarted())
+                            {
+                                connector.StopConnector();
+                                connector.StartConnector(ip, "3300");
+                            }
+                        }
+                        autoConnected = true;
+                        editTextIPAddress.Text = ip;
                     }
+                    else UpdateConnectionState(3, "Please check IP");
                 }
-                else UpdateConnectionState(3, "Please check IP");
             }
 
             //Add the "Connect" button handler.
