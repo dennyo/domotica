@@ -199,12 +199,12 @@ namespace Domotica
             }
             switchLightSensor.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
-                socket.Send(Encoding.ASCII.GetBytes("l")); // Send toggle-command to the Arduino to toggle RF-switch 1
+                socket.Send(Encoding.ASCII.GetBytes("l")); // Send toggle-command to the Arduino to toggle lightsensor
             };
 
             switchTempSensor.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
-                socket.Send(Encoding.ASCII.GetBytes("t")); // Send toggle-command to the Arduino to toggle RF-switch 1
+                socket.Send(Encoding.ASCII.GetBytes("t")); // Send toggle-command to the Arduino to toggle temp sensor
             };
 
             switch1.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
@@ -221,7 +221,14 @@ namespace Domotica
             {
                 socket.Send(Encoding.ASCII.GetBytes("3")); // Send toggle-command to the Arduino to toggle RF-switch 3
             };
-
+            buttonAllOn.Click += (sender, e) =>
+            {
+                socket.Send(Encoding.ASCII.GetBytes("4"));
+            };
+            buttonAllOff.Click += (sender, e) =>
+            {
+                socket.Send(Encoding.ASCII.GetBytes("5"));
+            };
             switch4.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
                 socket.Send(Encoding.ASCII.GetBytes("g")); // Send toggle-command to the Arduino to toggle GroupMode
@@ -231,28 +238,6 @@ namespace Domotica
                 radioButton1.Click += RadioButtonClick;
                 radioButton2.Click += RadioButtonClick;
                 radioButton3.Click += RadioButtonClick;
-
-            buttonAllOn.Click += (sender, e) =>
-            {
-                foreach(Switch s in switches)
-                {
-                    if(s.Checked == false)
-                    {
-                        TurnAllSwitches(s);
-                    }
-                }
-            };
-            buttonAllOff.Click += (sender, e) =>
-            {
-                foreach(Switch s in switches)
-                {
-                    if(s.Checked == true)
-                    {
-                        TurnAllSwitches(s);
-                    }
-                }
-            };
-
 
                 // add the eventHandler for the Start Timer button
                 buttonStartTimer.Click += (sender, e) =>
@@ -371,7 +356,6 @@ namespace Domotica
             {
                 if (result == "OFF") textview.SetTextColor(Color.Red);
                 else if (result == " ON") textview.SetTextColor(Color.Green);
-                else textview.SetTextColor(Color.White);
                 textview.Text = result;
             });
         }
@@ -561,17 +545,6 @@ namespace Domotica
                 else return false;
             }
             else return false;
-        }
-        private void TurnAllSwitches(Switch s)
-        {
-            // toggle only the switches that are ON so they turn OFF
-            s.Toggle();
-            int dwStartTime = System.Environment.TickCount;
-            while (true)
-            {
-                if (System.Environment.TickCount - dwStartTime > 300) break;
-                // delay between sending toggle commands to Arduino to give arduino the time to process them
-            }
         }
     }
 }

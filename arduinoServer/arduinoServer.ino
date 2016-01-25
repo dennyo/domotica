@@ -37,6 +37,7 @@ EthernetServer server(ethPort);              // EthernetServer instance (listeni
 bool pinState1 = false;                   // Stores pinstate of switcht 1
 bool pinState2 = false;                   // Stores pinstate of switcht 2
 bool pinState3 = false;                   // Stores pinstate of switcht 3
+bool pinStateAll = false;                 // Stores pinstate of all switches
 bool pinChange = false;                   // Variable to store actual pin change
 int  sensorLightValue = 0;                // Variable to store actual sensor light value
 int sensorTempValue = 0;                  // Variable to store actual sensor temp value
@@ -141,6 +142,7 @@ void loop()
       checkEvent(switchPin, pinState1);
       checkEvent(switchPin, pinState2);
       checkEvent(switchPin, pinState3);
+      checkEvent(switchPin, pinStateAll);
       if(lightSensor){ sensorLightValue = readSensor(4,100); }
       delay(100);
       if(tempSensor) {int val=analogRead(3); sensorTempValue=((1023 - val) /27.3); }
@@ -165,6 +167,11 @@ void loop()
         {
           if (pinState3)  mySwitch.send(9321643, 24);  // Turn RF-Switch 3 on
           else  mySwitch.send(9321642, 24);  // Turn RF-Switch 3 off
+        }
+        else if(activeSwitch==4)
+        {
+          if (pinStateAll) mySwitch.send(9321633, 24);
+          else mySwitch.send(9321634, 24);
         }
          activeSwitch = 0;
          pinChange = false;
@@ -268,6 +275,18 @@ void executeCommand(char cmd)
             pinChange = true; 
             activeSwitch = 3;
             break;
+        case '4': // All On
+            pinStateAll = false;
+            Serial.println("All pins off");
+            pinChange = true;
+            activeSwitch = 4;
+            break;
+         case '5': // All Off
+             pinStateAll = true;
+            Serial.println("All pins on");
+             pinChange = true;
+             activeSwitch = 4;
+             break;
          case 'a': // Report sensor light value to the app  
             if(lightSensor)
             {
