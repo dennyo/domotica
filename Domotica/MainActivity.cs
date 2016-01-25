@@ -238,14 +238,7 @@ namespace Domotica
                 {
                     if(s.Checked == false)
                     {
-                        // toggle only the switches that are OFF so they turn ON
-                        s.Toggle(); 
-                        int dwStartTime = System.Environment.TickCount;
-                        while (true)
-                        {
-                            if (System.Environment.TickCount - dwStartTime > 300) break;
-                            // delay between sending toggle commands to Arduino to give arduino the time to process them
-                        }
+                        TurnAllSwitches(s);
                     }
                 }
             };
@@ -255,14 +248,7 @@ namespace Domotica
                 {
                     if(s.Checked == true)
                     {
-                        // toggle only the switches that are ON so they turn OFF
-                        s.Toggle(); 
-                        int dwStartTime = System.Environment.TickCount;
-                        while (true)
-                        {
-                            if (System.Environment.TickCount - dwStartTime > 300) break;
-                            // delay between sending toggle commands to Arduino to give arduino the time to process them
-                        }
+                        TurnAllSwitches(s);
                     }
                 }
             };
@@ -575,6 +561,17 @@ namespace Domotica
                 else return false;
             }
             else return false;
+        }
+        private void TurnAllSwitches(Switch s)
+        {
+            // toggle only the switches that are ON so they turn OFF
+            s.Toggle();
+            int dwStartTime = System.Environment.TickCount;
+            while (true)
+            {
+                if (System.Environment.TickCount - dwStartTime > 300) break;
+                // delay between sending toggle commands to Arduino to give arduino the time to process them
+            }
         }
     }
 }
