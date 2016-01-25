@@ -131,7 +131,6 @@ namespace Domotica
             buttonStopMusic = FindViewById<ImageButton>(Resource.Id.buttonStopMusic);
             buttonStartMusic2 = FindViewById<ImageButton>(Resource.Id.buttonStartMusic2);
             buttonStopMusic2 = FindViewById<ImageButton>(Resource.Id.buttonStopMusic2);
-            List<Switch> switches = new List<Switch> { switch1, switch2, switch3 };
             UpdateConnectionState(4, "Disconnected");
 
             // Init commandlist, scheduled by socket timer
