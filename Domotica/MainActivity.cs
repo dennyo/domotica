@@ -540,7 +540,7 @@ namespace Domotica
             List<TextView> textViews = new List<TextView>
             {    textViewTimerStateValue, textViewTimerState, textViewServer,
                  textViewIPAddress, textViewSensor, textViewTempSensor, textView1, textView2, textView3,
-                 textView4, textView5, textViewRadioBtn, textViewTime, textViewSensorValue, textViewTempValue
+                 textView4, textView5, textView6, textViewRadioBtn, textViewTime, textViewSensorValue, textViewTempValue
             };
             List<EditText> editTexts = new List<EditText>{ editTextIPAddress, editTextMinutes, editTextSeconds };
             List<RadioButton> radioButtons = new List<RadioButton> { radioButton1, radioButton2, radioButton3 };
