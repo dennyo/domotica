@@ -1,8 +1,8 @@
-C:\Users\Jeroen\Source\Repos\domotica14\Domotica\obj\Release\android\assets\Domotica.dll
-C:\Users\Jeroen\Source\Repos\domotica14\Domotica\obj\Release\android\assets\Mono.Android.dll
-C:\Users\Jeroen\Source\Repos\domotica14\Domotica\obj\Release\android\assets\mscorlib.dll
-C:\Users\Jeroen\Source\Repos\domotica14\Domotica\obj\Release\android\assets\System.Core.dll
-C:\Users\Jeroen\Source\Repos\domotica14\Domotica\obj\Release\android\assets\System.dll
-C:\Users\Jeroen\Source\Repos\domotica14\Domotica\obj\Release\android\assets\System.Xml.dll
-C:\Users\Jeroen\Source\Repos\domotica14\Domotica\obj\Release\android\assets\System.Runtime.Serialization.dll
-C:\Users\Jeroen\Source\Repos\domotica14\Domotica\obj\Release\android\assets\System.ServiceModel.Internals.dll
+C:\Users\Denny\OneDrive\Documents\NHL\P2P Domotica\Project\domotica\Domotica\obj\Release\android\assets\Domotica.dll
+C:\Users\Denny\OneDrive\Documents\NHL\P2P Domotica\Project\domotica\Domotica\obj\Release\android\assets\Mono.Android.dll
+C:\Users\Denny\OneDrive\Documents\NHL\P2P Domotica\Project\domotica\Domotica\obj\Release\android\assets\mscorlib.dll
+C:\Users\Denny\OneDrive\Documents\NHL\P2P Domotica\Project\domotica\Domotica\obj\Release\android\assets\System.Core.dll
+C:\Users\Denny\OneDrive\Documents\NHL\P2P Domotica\Project\domotica\Domotica\obj\Release\android\assets\System.dll
+C:\Users\Denny\OneDrive\Documents\NHL\P2P Domotica\Project\domotica\Domotica\obj\Release\android\assets\System.Xml.dll
+C:\Users\Denny\OneDrive\Documents\NHL\P2P Domotica\Project\domotica\Domotica\obj\Release\android\assets\System.Runtime.Serialization.dll
+C:\Users\Denny\OneDrive\Documents\NHL\P2P Domotica\Project\domotica\Domotica\obj\Release\android\assets\System.ServiceModel.Internals.dll

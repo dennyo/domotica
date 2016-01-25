@@ -58,7 +58,7 @@
             android:layout_below="@id/textViewServer"
             android:textColor="@color/white" />
         <EditText
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_height="40dp"
             android:id="@+id/editTextIPAddress"
             android:text="@string/ip_address_value"
@@ -231,8 +231,8 @@
                 android:layout_below="@id/textViewRadioBtn"
                 android:id="@+id/radioButton1"
                 android:gravity="center"
-                android:layout_marginRight="10dp"
-                android:onClick="onRadioButtonClicked" />
+                android:onClick="onRadioButtonClicked"
+                android:layout_marginRight="3dp" />
             <RadioButton
                 android:text="2"
                 android:textColor="@color/white"
@@ -241,7 +241,7 @@
                 android:layout_below="@id/textViewRadioBtn"
                 android:id="@+id/radioButton2"
                 android:layout_toRightOf="@id/radioButton1"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="3dp"
                 android:onClick="onRadioButtonClicked" />
             <RadioButton
                 android:text="3"

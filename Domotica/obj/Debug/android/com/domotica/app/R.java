@@ -12,47 +12,57 @@ public final class R {
     }
     public static final class color {
         public static final int blue=0x7f040000;
-        public static final int darkGrey=0x7f040001;
-        public static final int white=0x7f040002;
+        public static final int white=0x7f040001;
     }
     public static final class drawable {
-        public static final int background=0x7f020000;
-        public static final int icon=0x7f020001;
+        public static final int ic_media_play=0x7f020000;
+        public static final int ic_media_stop=0x7f020001;
+        public static final int icon=0x7f020002;
     }
     public static final class id {
-        public static final int abort=0x7f070020;
+        public static final int RadioGroup=0x7f070018;
+        public static final int abort=0x7f07002a;
         public static final int buttonAllOff=0x7f070015;
         public static final int buttonAllOn=0x7f070016;
-        public static final int buttonConnect=0x7f070009;
-        public static final int buttonStartTimer=0x7f07001c;
-        public static final int editTextIPAddress=0x7f070008;
-        public static final int editTextIPPort=0x7f07000a;
-        public static final int editTextMinutes=0x7f07001e;
-        public static final int editTextSeconds=0x7f07001d;
-        public static final int exit=0x7f07001f;
+        public static final int buttonConnect=0x7f070008;
+        public static final int buttonStartMusic=0x7f070023;
+        public static final int buttonStartMusic2=0x7f070026;
+        public static final int buttonStartTimer=0x7f07001d;
+        public static final int buttonStopMusic=0x7f070024;
+        public static final int buttonStopMusic2=0x7f070027;
+        public static final int editTextIPAddress=0x7f070007;
+        public static final int editTextMinutes=0x7f07001f;
+        public static final int editTextSeconds=0x7f07001e;
+        public static final int exit=0x7f070029;
         public static final int linearLayout1=0x7f070000;
-        public static final int radioButton1=0x7f070018;
-        public static final int radioButton2=0x7f070019;
-        public static final int radioButton3=0x7f07001a;
+        public static final int radioButton1=0x7f070019;
+        public static final int radioButton2=0x7f07001a;
+        public static final int radioButton3=0x7f07001b;
         public static final int relativeLayout1=0x7f070001;
         public static final int switch1=0x7f070010;
         public static final int switch2=0x7f070012;
         public static final int switch3=0x7f070014;
+        public static final int switch4=0x7f070021;
+        public static final int switchLightSensor=0x7f07000a;
+        public static final int switchTempSensor=0x7f07000d;
         public static final int textView1=0x7f07000f;
         public static final int textView2=0x7f070011;
         public static final int textView3=0x7f070013;
+        public static final int textView4=0x7f070020;
+        public static final int textView5=0x7f070022;
+        public static final int textView6=0x7f070025;
         public static final int textViewIPAddress=0x7f070006;
-        public static final int textViewIPPort=0x7f070007;
         public static final int textViewRadioBtn=0x7f070017;
-        public static final int textViewSensor=0x7f07000b;
-        public static final int textViewSensorValue=0x7f07000c;
+        public static final int textViewSensor=0x7f070009;
+        public static final int textViewSensorValue=0x7f07000b;
         public static final int textViewServer=0x7f070004;
         public static final int textViewServerConnect=0x7f070005;
-        public static final int textViewTempSensor=0x7f07000d;
+        public static final int textViewTempSensor=0x7f07000c;
         public static final int textViewTempValue=0x7f07000e;
-        public static final int textViewTime=0x7f07001b;
+        public static final int textViewTime=0x7f07001c;
         public static final int textViewTimerState=0x7f070002;
         public static final int textViewTimerStateValue=0x7f070003;
+        public static final int theme=0x7f070028;
     }
     public static final class layout {
         public static final int main=0x7f030000;
