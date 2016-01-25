@@ -82,6 +82,7 @@ namespace Domotica
         int delay = 0;
         int colorIndex = 0;
         bool autoConnected = false;
+        bool switchesActivated = true;
         Color textColor = Color.White;
         Color bgColor = Color.Rgb(9, 153, 204);
 
@@ -131,6 +132,7 @@ namespace Domotica
             buttonStopMusic = FindViewById<ImageButton>(Resource.Id.buttonStopMusic);
             buttonStartMusic2 = FindViewById<ImageButton>(Resource.Id.buttonStartMusic2);
             buttonStopMusic2 = FindViewById<ImageButton>(Resource.Id.buttonStopMusic2);
+            List<Switch> switches = new List<Switch> { switch1, switch2, switch3 };
             UpdateConnectionState(4, "Disconnected");
 
             // Init commandlist, scheduled by socket timer
@@ -208,25 +210,37 @@ namespace Domotica
 
             switch1.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
-                socket.Send(Encoding.ASCII.GetBytes("1")); // Send toggle-command to the Arduino to toggle RF-switch 1
+                if(switchesActivated==true) socket.Send(Encoding.ASCII.GetBytes("1")); // Send toggle-command to the Arduino to toggle RF-switch 1
             };
 
             switch2.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
-                socket.Send(Encoding.ASCII.GetBytes("2")); // Send toggle-command to the Arduino to toggle RF-switch 2
+                if (switchesActivated == true) socket.Send(Encoding.ASCII.GetBytes("2")); // Send toggle-command to the Arduino to toggle RF-switch 2
             };
 
             switch3.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {
-                socket.Send(Encoding.ASCII.GetBytes("3")); // Send toggle-command to the Arduino to toggle RF-switch 3
+                if (switchesActivated == true) socket.Send(Encoding.ASCII.GetBytes("3")); // Send toggle-command to the Arduino to toggle RF-switch 3
             };
             buttonAllOn.Click += (sender, e) =>
             {
-                socket.Send(Encoding.ASCII.GetBytes("4"));
+                socket.Send(Encoding.ASCII.GetBytes("4")); // Send toggle-command to the Arduino to turn all switches on
+                switchesActivated = false;
+                foreach(Switch s in switches)
+                {
+                    if (s.Checked == false) s.Toggle();
+                }
+                switchesActivated = true;            
             };
             buttonAllOff.Click += (sender, e) =>
             {
-                socket.Send(Encoding.ASCII.GetBytes("5"));
+                socket.Send(Encoding.ASCII.GetBytes("5")); // Send toggle-command to the Arduino to turn all switches off
+                switchesActivated = false;
+                foreach (Switch s in switches)
+                {
+                    if (s.Checked == true) s.Toggle();
+                }
+                switchesActivated = true;
             };
             switch4.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e)
             {

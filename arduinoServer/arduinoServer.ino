@@ -277,13 +277,16 @@ void executeCommand(char cmd)
             break;
         case '4': // All On
             pinStateAll = false;
-            Serial.println("All pins off");
+            pinState1=true;pinState2=true;pinState3=true;
+            Serial.println("All pins on");
             pinChange = true;
             activeSwitch = 4;
             break;
          case '5': // All Off
              pinStateAll = true;
-            Serial.println("All pins on");
+             pinState1=false;pinState2=false;pinState3=false;
+             pinState1=true;pinState2=true;pinState3=true;
+             Serial.println("All pins off");
              pinChange = true;
              activeSwitch = 4;
              break;
@@ -446,7 +449,7 @@ void play(int notes[], int durations[])
 {
     int noteDuration = (1000*(60*4/BPM)) / durations[thisNote];
     tone(7, notes[thisNote],noteDuration);  // pin, which melody note, which duration of the note
-    int pause = noteDuration*1.30;
+    int pause = noteDuration;
     delay(pause);       //wait until the note is finished
     noTone(7);
     thisNote++;         // Counts a new note
