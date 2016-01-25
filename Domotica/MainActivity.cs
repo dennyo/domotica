@@ -167,7 +167,7 @@ namespace Domotica
                 //});
             };
 
-            if (!autoConnected)
+            if (!autoConnected) /// 
             {
                 for (int i = 100; i < 102; i++)
                 {
